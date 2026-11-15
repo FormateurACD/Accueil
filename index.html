@@ -527,10 +527,22 @@ footer .heart {
     }
 }
 
-/* Mise en page avec veille agronomique latérale */
-.home-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:22px;align-items:start}
+/* Mise en page avec veille BTS ACD à gauche et veille agronomique à droite */
+.home-layout{display:grid;grid-template-columns:290px minmax(0,1fr) 290px;gap:18px;align-items:start}
 .home-main-content{min-width:0}
 .home-main-content .intro{margin-top:8px}
+.acd-watch{position:sticky;top:18px;background:rgba(255,255,255,.95);border:1px solid rgba(38,131,77,.2);border-radius:22px;padding:16px;box-shadow:var(--shadow);max-height:calc(100vh - 36px);overflow:auto}
+.acd-watch-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+.acd-watch h2{font-size:19px;color:var(--green-dark)}
+.acd-watch-sub{font-size:12px;color:#6b806f;margin-bottom:12px;line-height:1.45}
+.acd-watch-status{font-size:10px;font-weight:800;color:#245d39;background:#e4f5e6;border-radius:20px;padding:4px 8px;white-space:nowrap}
+.acd-watch-item{padding:11px 0;border-top:1px solid #e5eee3}
+.acd-watch-item a{color:#245d39;text-decoration:none;font-weight:700;font-size:13px;line-height:1.4}
+.acd-watch-item a:hover{text-decoration:underline}
+.acd-watch-meta{display:block;color:#78877b;font-size:11px;margin-top:4px}
+.acd-watch-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid #e5eee3}
+.acd-watch-links a{font-size:11px;font-weight:700;text-decoration:none;color:#245d39;background:#eaf5e8;padding:7px 9px;border-radius:9px}
+.acd-watch-note{font-size:10px;line-height:1.45;color:#748276;margin-top:10px}
 .agri-watch{position:sticky;top:18px;background:rgba(255,255,255,.94);border:1px solid rgba(38,131,77,.18);border-radius:22px;padding:16px;box-shadow:var(--shadow);max-height:calc(100vh - 36px);overflow:auto}
 .agri-watch-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
 .agri-watch h2{font-size:19px;color:var(--green-dark)}
@@ -544,7 +556,7 @@ footer .heart {
 .agri-watch-loading,.agri-watch-error{font-size:12px;color:#687b6d;padding:12px 0}
 .agri-watch-footer{border-top:1px solid #e5eee3;padding-top:10px;font-size:11px;color:#748276}
 .agri-watch-refresh{border:0;border-radius:9px;background:#e5f3e5;color:#245d39;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer}
-@media(max-width:900px){.home-layout{grid-template-columns:1fr}.agri-watch{position:static;max-height:none;grid-row:2}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.agri-watch{order:3}}
+@media(max-width:1100px){.home-layout{grid-template-columns:1fr 1fr}.home-main-content{grid-column:1 / -1;grid-row:1}.acd-watch{position:static;grid-column:1;grid-row:2;max-height:none}.agri-watch{position:static;grid-column:2;grid-row:2;max-height:none}}\n@media(max-width:650px){.home-layout{grid-template-columns:1fr}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.acd-watch{grid-column:1;grid-row:auto;order:3}.agri-watch{grid-column:1;grid-row:auto;order:4}}
 </style>
 </head>
 
@@ -605,6 +617,31 @@ footer .heart {
     </header>
 
     <div class="home-layout">
+      <aside class="acd-watch" aria-label="Actualités de la filière BTS ACD du Lycée Pommerit">
+        <div class="acd-watch-head">
+          <h2>🎓 Actualités BTS ACD</h2>
+          <span class="acd-watch-status">ACD UNIQUEMENT</span>
+        </div>
+        <p class="acd-watch-sub">La vie des étudiants et les actualités de la filière Agronomie et Cultures Durables à Pommerit</p>
+        <article class="acd-watch-item">
+          <a href="https://www.lycee.pommerit.fr/Les-BTS-ACD-1-a-la-station-experimentale-de-Kerguehennec" target="_blank" rel="noopener noreferrer">Les BTS ACD 1 à la station expérimentale de Kerguéhennec ↗</a>
+          <span class="acd-watch-meta">28 septembre 2026 · Lycée Pommerit</span>
+        </article>
+        <article class="acd-watch-item">
+          <a href="https://www.lycee.pommerit.fr/BTS-ACD-1-cap-sur-le-Quebec" target="_blank" rel="noopener noreferrer">BTS ACD 1 : cap sur le Québec ! ↗</a>
+          <span class="acd-watch-meta">4 juin 2026 · Lycée Pommerit</span>
+        </article>
+        <article class="acd-watch-item">
+          <a href="https://www.lycee.pommerit.fr/Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden" target="_blank" rel="noopener noreferrer">Les BTS ACD découvrent la plateforme d’essais Eureden ↗</a>
+          <span class="acd-watch-meta">15 avril 2026 · Lycée Pommerit</span>
+        </article>
+        <div class="acd-watch-links">
+          <a href="https://www.instagram.com/lyceepommerit/" target="_blank" rel="noopener noreferrer">Instagram Pommerit ↗</a>
+          <a href="https://fr.linkedin.com/company/lyc%C3%A9e-pommerit" target="_blank" rel="noopener noreferrer">LinkedIn Pommerit ↗</a>
+          <a href="https://www.lycee.pommerit.fr/BTS-ACP-Agronomie-Cultures-Durables" target="_blank" rel="noopener noreferrer">Page BTS ACD ↗</a>
+        </div>
+        <p class="acd-watch-note">Sélection stricte : seules les informations identifiées comme concernant les BTS ACD sont affichées. Les publications générales du lycée et celles des autres BTS sont exclues. Les réseaux sociaux sont accessibles via leurs liens officiels ; leurs publications ne sont pas aspirées automatiquement.</p>
+      </aside>
       <div class="home-main-content">
     <!-- INTRODUCTION -->
     <section class="intro">
