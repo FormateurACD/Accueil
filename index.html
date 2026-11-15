@@ -1145,8 +1145,10 @@ async function updateVisitCounters() {
     const workspace = "tugduals-team-6247";
     const dailyCounter = "un-suivi-des-visites-quotidiennes";
     const totalCounter = "un-compteur-general-des-visites";
-    // Les compteurs CounterAPI sont publics (configuration par défaut) :
-    // aucun jeton n'est nécessaire côté navigateur.
+    // CounterAPI V2 nécessite un jeton d'accès pour les requêtes.
+    // Remplace PASTE_COUNTERAPI_TOKEN par ton jeton CounterAPI.
+    const accessToken = "PASTE_COUNTERAPI_TOKEN";
+    const headers = { "Authorization": "Bearer " + accessToken };
 
     const todayElement = document.getElementById("visitsToday");
     const totalElement = document.getElementById("visitsTotal");
@@ -1156,7 +1158,7 @@ async function updateVisitCounters() {
         const baseUrl = "https://api.counterapi.dev/v2/" + encodeURIComponent(workspace) + "/";
         // Une visite est ajoutée à chacun des deux compteurs.
         const increments = await Promise.all([
-            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/up", { method: "GET", cache: "no-store" }),
+            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/up", { method: "GET", headers, cache: "no-store" }),
             fetch(baseUrl + encodeURIComponent(totalCounter) + "/up", { method: "GET", headers, cache: "no-store" })
         ]);
         if (increments.some(response => !response.ok)) {
@@ -1164,7 +1166,7 @@ async function updateVisitCounters() {
         }
 
         const statsResponses = await Promise.all([
-            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/stats", { cache: "no-store" }),
+            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/stats", { headers, cache: "no-store" }),
             fetch(baseUrl + encodeURIComponent(totalCounter) + "/stats", { headers, cache: "no-store" })
         ]);
         if (statsResponses.some(response => !response.ok)) {
