@@ -165,6 +165,72 @@ body {
 .soil-gallery.g3 { right:8%; top:84%; width:180px; height:38px; transform:rotate(8deg); }
 .soil-gallery.g4 { left:58%; top:64%; width:130px; height:34px; transform:rotate(18deg); }
 
+
+/* Tracteur qui traverse la parcelle et semoir en action */
+.tractor-row {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: calc(52.5% - 42px);
+  width: 100%;
+  height: 64px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.tractor-unit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 42px;
+  filter: drop-shadow(1px 4px 2px rgba(0,0,0,.25));
+  animation: tractor-cross 34s linear infinite;
+}
+.tractor-unit .tractor { position: relative; z-index: 2; }
+.tractor-unit .seeder { font-size: 27px; margin-left: -8px; transform: translateY(5px); }
+.seed-trail {
+  position: absolute;
+  left: -26px;
+  top: 38px;
+  width: 38px;
+  height: 20px;
+}
+.seed-trail i {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f7d35b;
+  box-shadow: 0 1px 2px rgba(45,35,14,.4);
+  animation: seed-drop 1.8s ease-in infinite;
+}
+.seed-trail i:nth-child(1) { left: 2px; animation-delay: 0s; }
+.seed-trail i:nth-child(2) { left: 13px; animation-delay: .45s; }
+.seed-trail i:nth-child(3) { left: 25px; animation-delay: .9s; }
+.seed-trail i:nth-child(4) { left: 34px; animation-delay: 1.35s; }
+@keyframes tractor-cross {
+  0% { transform: translateX(-125px) scaleX(1); }
+  48% { transform: translateX(calc(100vw + 125px)) scaleX(1); }
+  50% { transform: translateX(calc(100vw + 125px)) scaleX(-1); }
+  98% { transform: translateX(-125px) scaleX(-1); }
+  100% { transform: translateX(-125px) scaleX(1); }
+}
+@keyframes seed-drop {
+  0% { transform: translate(0,-5px) scale(.5); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translate(-8px,19px) scale(1); opacity: 0; }
+}
+@media (max-width:650px) {
+  .tractor-row { top: calc(52.5% - 32px); }
+  .tractor-unit { font-size: 32px; }
+  .tractor-unit .seeder { font-size: 21px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tractor-unit, .seed-trail i { animation: none; }
+}
+
 /* =================================
    CONTENU PRINCIPAL
 ================================= */
@@ -532,6 +598,14 @@ footer .heart {
 <span class="soil-gallery g1"></span><span class="soil-gallery g2"></span>
 <span class="soil-gallery g3"></span><span class="soil-gallery g4"></span>
 <span class="soil-label a">Horizon A</span><span class="soil-label b">Horizon B</span><span class="soil-label c">Horizon C</span>
+</div>
+
+
+<div class="tractor-row" aria-hidden="true">
+  <div class="tractor-unit">
+    <span class="seed-trail"><i></i><i></i><i></i><i></i></span>
+    <span class="seeder">🛠️</span><span class="tractor">🚜</span>
+  </div>
 </div>
 
 <!-- PETITES BETES ANIMEES -->
