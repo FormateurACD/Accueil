@@ -45,122 +45,66 @@ body {
    ARRIERE-PLAN ANIME
 ================================= */
 
+/* Petites bêtes : déplacements rampants et irréguliers */
 .background-creatures {
     position: fixed;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
     z-index: 0;
-    opacity: .65;
+    opacity: .82;
 }
-
 .creature {
     position: absolute;
-    font-size: 25px;
-    animation: wander linear infinite;
-    filter: drop-shadow(1px 3px 2px rgba(0,0,0,.1));
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    filter: drop-shadow(1px 3px 2px rgba(0,0,0,.22));
+    will-change: transform;
 }
+.worm { left: 3%; top: 64%; animation: worm-crawl 19s ease-in-out infinite; }
+.worm.two { left: 58%; top: 77%; animation-duration: 25s; animation-delay: -11s; }
+.beetle { left: 24%; top: 69%; animation: beetle-scuttle 23s ease-in-out infinite; }
+.beetle.two { left: 72%; top: 84%; animation-duration: 28s; animation-delay: -13s; }
+.ant { left: 10%; top: 59%; font-size: 18px; animation: ant-trail 17s ease-in-out infinite; }
+.centipede { left: 43%; top: 81%; animation: centipede-crawl 21s ease-in-out infinite; }
+.spider { top: 56%; animation: spider-lower 10s ease-in-out infinite; }
+.spider.one { left: 14%; }
+.spider.two { left: 86%; animation-delay: -5s; }
 
-.worm {
-    bottom: 8%;
-    animation-name: crawl;
-    animation-duration: 24s;
+@keyframes worm-crawl {
+    0%,100% { transform: translate(0,0) rotate(-7deg) scaleX(1); }
+    18% { transform: translate(9vw,5px) rotate(8deg) scaleX(1.04); }
+    36% { transform: translate(17vw,-4px) rotate(-9deg) scaleX(.96); }
+    55% { transform: translate(25vw,7px) rotate(11deg) scaleX(1.05); }
+    76% { transform: translate(33vw,-3px) rotate(-5deg) scaleX(.98); }
 }
-
-.worm.one {
-    left: -10%;
-    animation-delay: 0s;
+@keyframes beetle-scuttle {
+    0%,100% { transform: translate(0,0) rotate(0); }
+    15% { transform: translate(5vw,-3px) rotate(-12deg); }
+    28% { transform: translate(8vw,4px) rotate(9deg); }
+    47% { transform: translate(14vw,1px) rotate(0); }
+    64% { transform: translate(18vw,-5px) rotate(-10deg); }
+    82% { transform: translate(23vw,3px) rotate(8deg); }
 }
-
-.worm.two {
-    left: -10%;
-    bottom: 17%;
-    animation-duration: 32s;
-    animation-delay: -12s;
+@keyframes ant-trail {
+    0%,100% { transform: translate(0,0) rotate(0); }
+    20% { transform: translate(7vw,5px) rotate(7deg); }
+    42% { transform: translate(14vw,-3px) rotate(-5deg); }
+    63% { transform: translate(20vw,6px) rotate(8deg); }
+    83% { transform: translate(27vw,0) rotate(-4deg); }
 }
-
-.beetle {
-    top: 25%;
-    left: -10%;
-    animation-duration: 35s;
+@keyframes centipede-crawl {
+    0%,100% { transform: translate(0,0) rotate(0); }
+    20% { transform: translate(6vw,4px) rotate(7deg); }
+    40% { transform: translate(13vw,-4px) rotate(-7deg); }
+    60% { transform: translate(19vw,5px) rotate(6deg); }
+    80% { transform: translate(25vw,-2px) rotate(-5deg); }
 }
-
-.beetle.two {
-    top: 75%;
-    animation-duration: 29s;
-    animation-delay: -15s;
+@keyframes spider-lower {
+    0%,100% { transform: translateY(-12px); }
+    45%,60% { transform: translateY(55px); }
 }
-
-.ant {
-    top: 55%;
-    left: -10%;
-    font-size: 17px;
-    animation-duration: 20s;
-}
-
-.centipede {
-    bottom: 35%;
-    left: -10%;
-    animation-duration: 38s;
-    animation-delay: -8s;
-}
-
-.spider {
-    top: -60px;
-    animation-name: descend;
-    animation-duration: 12s;
-    animation-iteration-count: infinite;
-}
-
-.spider.one {
-    left: 12%;
-}
-
-.spider.two {
-    left: 83%;
-    animation-delay: -5s;
-}
-
-@keyframes crawl {
-    0% {
-        transform: translateX(0) rotate(0deg);
-    }
-    45% {
-        transform: translateX(55vw) rotate(12deg);
-    }
-    50% {
-        transform: translateX(55vw) rotate(-10deg);
-    }
-    100% {
-        transform: translateX(115vw) rotate(0deg);
-    }
-}
-
-@keyframes wander {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(115vw);
-    }
-}
-
-@keyframes descend {
-    0% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(180px);
-    }
-    60% {
-        transform: translateY(180px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-
 /* Profil cultural : prairie et horizons du sol */
 .soil-profile-bg {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -193,6 +137,22 @@ body {
 .soil-label {position:absolute;right:16px;color:rgba(255,255,255,.72);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .soil-label.a {top:61%}.soil-label.b {top:73%}.soil-label.c {top:88%}
 @media(max-width:650px){.soil-profile-bg{opacity:.32}.soil-label{right:7px;font-size:8px}}
+
+/* Racines secondaires et galeries de la faune du sol */
+.soil-root:before { box-shadow: -9px 42px 0 -1px #e9c991, 8px 78px 0 -1px #e9c991; }
+.soil-root:after { box-shadow: 8px 35px 0 -1px #e9c991, -7px 72px 0 -1px #e9c991; }
+.soil-gallery {
+    position:absolute;
+    border: 3px solid rgba(49,30,20,.48);
+    border-left-color: rgba(224,190,139,.65);
+    border-bottom-color: rgba(224,190,139,.55);
+    border-radius: 48% 52% 42% 58%;
+    filter: drop-shadow(0 1px 1px rgba(255,220,170,.18));
+}
+.soil-gallery.g1 { left:7%; top:62%; width:190px; height:44px; transform:rotate(12deg); }
+.soil-gallery.g2 { left:34%; top:75%; width:245px; height:52px; transform:rotate(-9deg); }
+.soil-gallery.g3 { right:8%; top:84%; width:180px; height:38px; transform:rotate(8deg); }
+.soil-gallery.g4 { left:58%; top:64%; width:130px; height:34px; transform:rotate(18deg); }
 
 /* =================================
    CONTENU PRINCIPAL
@@ -558,6 +518,8 @@ footer .heart {
 <body>
 <div class="soil-profile-bg" aria-hidden="true">
 <span class="soil-root one"></span><span class="soil-root two"></span><span class="soil-root three"></span>
+<span class="soil-gallery g1"></span><span class="soil-gallery g2"></span>
+<span class="soil-gallery g3"></span><span class="soil-gallery g4"></span>
 <span class="soil-label a">Horizon A</span><span class="soil-label b">Horizon B</span><span class="soil-label c">Horizon C</span>
 </div>
 
