@@ -728,7 +728,7 @@ footer .heart {
           <h2>📰 Veille agronomique</h2>
           <span class="agri-watch-status">FRANCE</span>
         </div>
-        <p class="agri-watch-sub">Actualités agricoles et agronomiques françaises</p>
+        <p class="agri-watch-sub">Actualités françaises des cultures et productions végétales</p>
         <div id="agriWatchItems" aria-live="polite">
           <p class="agri-watch-loading">Chargement des dernières actualités…</p>
         </div>
@@ -1021,11 +1021,12 @@ function logoutClass(id) {
 
 /* Veille agronomique française : flux RSS relayés en JSON */
 const agriWatchFeeds = [
-  {name:"Ministère de l’Agriculture",url:"https://agriculture.gouv.fr/rss.xml"},
-  {name:"Veille CEP",url:"https://www.veillecep.fr/feed/"},
-  {name:"Agrobio Bretagne",url:"https://www.agrobio-bretagne.org/feed/"},
-  {name:"Agra Presse",url:"https://www.agra.fr/rss.xml"}
+  {name:"Veille CEP — protection des cultures",url:"https://www.veillecep.fr/feed/"},
+  {name:"Syppre — systèmes de cultures",url:"https://syppre.fr/feed/"},
+  {name:"Agrobio Bretagne — productions végétales",url:"https://www.agrobio-bretagne.org/feed/"},
+  {name:"Agra Presse — végétal",url:"https://www.agra.fr/rss.xml"}
 ];
+const plantProductionTerms = /bl[eé]s?|orge|avoine|triticale|ma[iï]s|sorgho|colza|tournesol|pois|f[eè]verole|soja|prot[eé]agineux|c[eé]r[eé]ales?|grandes cultures|cultures? interm[eé]diaires|couverts? v[eé]g[eé]taux|prairies?|fourrages?|pommes? de terre|betteraves?|lin|chanvre|vigne|viticulture|arboriculture|mara[iî]chage|l[eé]gumes?|fruits?|semis|semences?|vari[eé]t[eé]s?|d[eé]sherbage|adventices?|phytosanitaires?|fongicides?|herbicides?|insecticides?|ravageurs?|maladies? des plantes|fertilisation|azote|engrais|irrigation|rendement|r[eé]colte|rotation|assolement|travail du sol|agronomie|sols? agricoles?|biocontr[oô]le|agro[eé]cologie|agriculture biologique|production v[eé]g[eé]tale/i;
 
 function escapeWatchHtml(value) {
   return String(value || "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
@@ -1050,7 +1051,7 @@ async function loadAgriWatch() {
   });
   const results = await Promise.allSettled(requests);
   const articles = results.filter(x => x.status === "fulfilled").flatMap(x => x.value)
-    .filter(x => x.title && x.link && /^https?:\/\//i.test(x.link))
+    .filter(x => x.title && x.link && /^https?:\/\//i.test(x.link) && plantProductionTerms.test(x.title))
     .sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0))
     .filter((item,index,array) => array.findIndex(other => other.link === item.link) === index)
     .slice(0, 8);
