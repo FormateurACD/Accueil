@@ -23,11 +23,60 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Arrière-plan animé (petites bêtes du sol) */
+        #faune-sol {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Permet de cliquer à travers sans gêner */
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bestiole {
+            position: absolute;
+            font-size: 1.6rem;
+            opacity: 0.45;
+            user-select: none;
+            will-change: transform;
+        }
+
+        /* Animations de déplacement */
+        @keyframes ramperDroite {
+            0% { transform: translateX(-60px) translateY(0px) rotate(10deg); }
+            25% { transform: translateX(25vw) translateY(15px) rotate(-10deg); }
+            50% { transform: translateX(50vw) translateY(-10px) rotate(15deg); }
+            75% { transform: translateX(75vw) translateY(20px) rotate(-5deg); }
+            100% { transform: translateX(105vw) translateY(0px) rotate(10deg); }
+        }
+
+        @keyframes ramperGauche {
+            0% { transform: translateX(105vw) scaleX(-1) translateY(0px); }
+            33% { transform: translateX(65vw) scaleX(-1) translateY(-20px); }
+            66% { transform: translateX(30vw) scaleX(-1) translateY(15px); }
+            100% { transform: translateX(-60px) scaleX(-1) translateY(0px); }
+        }
+
+        @keyframes descendreAraignee {
+            0%, 100% { transform: translateY(-40px); }
+            50% { transform: translateY(180px); }
+        }
+
+        /* Contenu principal au-dessus de l'animation */
+        .main-wrapper, footer {
+            position: relative;
+            z-index: 1;
         }
 
         header {
             text-align: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
@@ -67,7 +116,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
             padding: 10px;
             border-radius: 12px 12px 0 0;
             backdrop-filter: blur(5px);
@@ -101,7 +150,7 @@
         /* Panneaux de contenu */
         .tab-panel {
             display: none;
-            background: white;
+            background: rgba(255, 255, 255, 0.96);
             padding: 30px;
             border-radius: 0 0 16px 16px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
@@ -201,127 +250,141 @@
             margin-top: 30px;
             color: #475569;
             font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
-        }
-
-        footer span {
-            color: var(--primary);
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div>
+    <!-- Calque des petites bêtes animées -->
+    <div id="faune-sol">
+        <!-- Vers de terre -->
+        <div class="bestiole" style="top: 15%; animation: ramperDroite 28s linear infinite;">🪱</div>
+        <div class="bestiole" style="top: 78%; animation: ramperGauche 34s linear infinite 4s;">🪱</div>
+        
+        <!-- Cloportes / Scarabées -->
+        <div class="bestiole" style="top: 42%; animation: ramperGauche 22s linear infinite;">🪲</div>
+        <div class="bestiole" style="top: 88%; animation: ramperDroite 25s linear infinite 7s;">🪲</div>
+        
+        <!-- Fourmis & Mille-pattes -->
+        <div class="bestiole" style="top: 60%; animation: ramperDroite 19s linear infinite 2s;">🐜</div>
+        <div class="bestiole" style="top: 30%; animation: ramperGauche 30s linear infinite 10s;">🐛</div>
+
+        <!-- Araignées au plafond -->
+        <div class="bestiole" style="top: 0; left: 12%; animation: descendreAraignee 9s ease-in-out infinite;">🕷️</div>
+        <div class="bestiole" style="top: 0; right: 15%; animation: descendreAraignee 12s ease-in-out infinite 3s;">🕷️</div>
+    </div>
+
+    <div class="main-wrapper">
         <header>
             <img src="logo-pommerit.png" alt="Logo Lycée Pommerit" class="logo">
             <h1>Espace Pédagogique Interactif</h1>
             <div class="subtitle">🌱 🦜 Saisons & Ressources par Classe</div>
         </header>
 
-        <!-- Barre de navigation des classes -->
+        <!-- Barre de navigation avec les vrais noms des classes -->
         <div class="onglets-bar">
-            <button class="tab-btn active" onclick="changerOnglet(event, 'TugACS1')">TugACS1</button>
-            <button class="tab-btn" onclick="changerOnglet(event, 'TugACD2')">TugACD2</button>
-            <button class="tab-btn" onclick="changerOnglet(event, 'TugACD1')">TugACD1</button>
-            <button class="tab-btn" onclick="changerOnglet(event, 'TugPro2B')">TugPro2B</button>
-            <button class="tab-btn" onclick="changerOnglet(event, 'TugPro1B')">TugPro1B</button>
-            <button class="tab-btn" onclick="changerOnglet(event, '2ProB')">2ProB</button>
+            <button class="tab-btn active" onclick="changerOnglet(event, 'acsagri')">ACS'agri</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'acd2')">ACD 2</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'acd1')">ACD 1</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'pro2b')">Pro2B</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'pro1b')">Pro1B</button>
+            <button class="tab-btn" onclick="changerOnglet(event, '2prob')">2ProB</button>
         </div>
 
-        <!-- PANNEAU : TugACS1 -->
-        <div id="TugACS1" class="tab-panel active">
+        <!-- PANNEAU : ACS'agri -->
+        <div id="acsagri" class="tab-panel active">
             <div class="panel-header">
-                <h2>Ressources — TugACS1</h2>
+                <h2>Ressources — ACS'agri</h2>
                 <span>🌱🌿</span>
             </div>
-            <div id="login-TugACS1" class="zone-connexion">
-                <input type="password" id="pass-TugACS1" placeholder="Mot de passe TugACS1..." onkeypress="if(event.key === 'Enter') debloquer('TugACS1')">
-                <button class="action-btn" onclick="debloquer('TugACS1')">Valider</button>
+            <div id="login-acsagri" class="zone-connexion">
+                <input type="password" id="pass-acsagri" placeholder="Mot de passe ACS'agri..." onkeypress="if(event.key === 'Enter') debloquer('acsagri')">
+                <button class="action-btn" onclick="debloquer('acsagri')">Valider</button>
             </div>
-            <p id="err-TugACS1" class="erreur">Mot de passe incorrect.</p>
-            <div id="content-TugACS1" class="contenu-protege">
+            <p id="err-acsagri" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-acsagri" class="contenu-protege">
                 <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
             </div>
         </div>
 
-        <!-- PANNEAU : TugACD2 -->
-        <div id="TugACD2" class="tab-panel">
+        <!-- PANNEAU : ACD 2 -->
+        <div id="acd2" class="tab-panel">
             <div class="panel-header">
-                <h2>Ressources — TugACD2</h2>
+                <h2>Ressources — ACD 2</h2>
                 <span>🌻🌿</span>
             </div>
-            <div id="login-TugACD2" class="zone-connexion">
-                <input type="password" id="pass-TugACD2" placeholder="Mot de passe TugACD2..." onkeypress="if(event.key === 'Enter') debloquer('TugACD2')">
-                <button class="action-btn" onclick="debloquer('TugACD2')">Valider</button>
+            <div id="login-acd2" class="zone-connexion">
+                <input type="password" id="pass-acd2" placeholder="Mot de passe ACD 2..." onkeypress="if(event.key === 'Enter') debloquer('acd2')">
+                <button class="action-btn" onclick="debloquer('acd2')">Valider</button>
             </div>
-            <p id="err-TugACD2" class="erreur">Mot de passe incorrect.</p>
-            <div id="content-TugACD2" class="contenu-protege">
+            <p id="err-acd2" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-acd2" class="contenu-protege">
                 <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
             </div>
         </div>
 
-        <!-- PANNEAU : TugACD1 -->
-        <div id="TugACD1" class="tab-panel">
+        <!-- PANNEAU : ACD 1 -->
+        <div id="acd1" class="tab-panel">
             <div class="panel-header">
-                <h2>Ressources — TugACD1</h2>
+                <h2>Ressources — ACD 1</h2>
                 <span>🪴🌿</span>
             </div>
-            <div id="login-TugACD1" class="zone-connexion">
-                <input type="password" id="pass-TugACD1" placeholder="Mot de passe TugACD1..." onkeypress="if(event.key === 'Enter') debloquer('TugACD1')">
-                <button class="action-btn" onclick="debloquer('TugACD1')">Valider</button>
+            <div id="login-acd1" class="zone-connexion">
+                <input type="password" id="pass-acd1" placeholder="Mot de passe ACD 1..." onkeypress="if(event.key === 'Enter') debloquer('acd1')">
+                <button class="action-btn" onclick="debloquer('acd1')">Valider</button>
             </div>
-            <p id="err-TugACD1" class="erreur">Mot de passe incorrect.</p>
-            <div id="content-TugACD1" class="contenu-protege">
+            <p id="err-acd1" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-acd1" class="contenu-protege">
                 <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
             </div>
         </div>
 
-        <!-- PANNEAU : TugPro2B -->
-        <div id="TugPro2B" class="tab-panel">
+        <!-- PANNEAU : Pro2B -->
+        <div id="pro2b" class="tab-panel">
             <div class="panel-header">
-                <h2>Ressources — TugPro2B</h2>
+                <h2>Ressources — Pro2B</h2>
                 <span>🌳🌿</span>
             </div>
-            <div id="login-TugPro2B" class="zone-connexion">
-                <input type="password" id="pass-TugPro2B" placeholder="Mot de passe TugPro2B..." onkeypress="if(event.key === 'Enter') debloquer('TugPro2B')">
-                <button class="action-btn" onclick="debloquer('TugPro2B')">Valider</button>
+            <div id="login-pro2b" class="zone-connexion">
+                <input type="password" id="pass-pro2b" placeholder="Mot de passe Pro2B..." onkeypress="if(event.key === 'Enter') debloquer('pro2b')">
+                <button class="action-btn" onclick="debloquer('pro2b')">Valider</button>
             </div>
-            <p id="err-TugPro2B" class="erreur">Mot de passe incorrect.</p>
-            <div id="content-TugPro2B" class="contenu-protege">
+            <p id="err-pro2b" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-pro2b" class="contenu-protege">
                 <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
             </div>
         </div>
 
-        <!-- PANNEAU : TugPro1B -->
-        <div id="TugPro1B" class="tab-panel">
+        <!-- PANNEAU : Pro1B -->
+        <div id="pro1b" class="tab-panel">
             <div class="panel-header">
-                <h2>Ressources — TugPro1B</h2>
+                <h2>Ressources — Pro1B</h2>
                 <span>🍀🌿</span>
             </div>
-            <div id="login-TugPro1B" class="zone-connexion">
-                <input type="password" id="pass-TugPro1B" placeholder="Mot de passe TugPro1B..." onkeypress="if(event.key === 'Enter') debloquer('TugPro1B')">
-                <button class="action-btn" onclick="debloquer('TugPro1B')">Valider</button>
+            <div id="login-pro1b" class="zone-connexion">
+                <input type="password" id="pass-pro1b" placeholder="Mot de passe Pro1B..." onkeypress="if(event.key === 'Enter') debloquer('pro1b')">
+                <button class="action-btn" onclick="debloquer('pro1b')">Valider</button>
             </div>
-            <p id="err-TugPro1B" class="erreur">Mot de passe incorrect.</p>
-            <div id="content-TugPro1B" class="contenu-protege">
+            <p id="err-pro1b" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-pro1b" class="contenu-protege">
                 <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
             </div>
         </div>
 
         <!-- PANNEAU : 2ProB -->
-        <div id="2ProB" class="tab-panel">
+        <div id="2prob" class="tab-panel">
             <div class="panel-header">
                 <h2>Ressources — 2ProB</h2>
                 <span>🌾🌿</span>
             </div>
-            <div id="login-2ProB" class="zone-connexion">
-                <input type="password" id="pass-2ProB" placeholder="Mot de passe 2ProB..." onkeypress="if(event.key === 'Enter') debloquer('2ProB')">
-                <button class="action-btn" onclick="debloquer('2ProB')">Valider</button>
+            <div id="login-2prob" class="zone-connexion">
+                <input type="password" id="pass-2prob" placeholder="Mot de passe 2ProB..." onkeypress="if(event.key === 'Enter') debloquer('2prob')">
+                <button class="action-btn" onclick="debloquer('2prob')">Valider</button>
             </div>
-            <p id="err-2ProB" class="erreur">Mot de passe incorrect.</p>
-            <div id="content-2ProB" class="contenu-protege">
+            <p id="err-2prob" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-2prob" class="contenu-protege">
                 <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
             </div>
         </div>
@@ -333,14 +396,14 @@
 
     <!-- LOGIQUE JAVASCRIPT -->
     <script>
-        // Mots de passe encodés en Base64 (modifie les valeurs si besoin via la console F12 avec btoa("ton_mdp"))
+        // Mots de passe encodés en Base64 correspondant exactement à tes codes :
         const MOTS_DE_PASSE = {
-            'TugACS1':  'VHVnQUNTQzE=', // Exemple base64 pour "TugACS1"
-            'TugACD2':  'VHVnQUNEMg==', // Exemple base64 pour "TugACD2"
-            'TugACD1':  'VHVnQUNEMT==', // Exemple base64 pour "TugACD1"
-            'TugPro2B': 'VHVnUHJvMmI=', // Exemple base64 pour "TugPro2B"
-            'TugPro1B': 'VHVnUHJvMWI=', // Exemple base64 pour "TugPro1B"
-            '2ProB':    'MlByb0I='      // Exemple base64 pour "2ProB"
+            'acsagri': 'VHVnQUNTMQ==',   // TugACS1
+            'acd2':    'VHVnQUNEMg==',   // TugACD2
+            'acd1':    'VHVnQUNEMQ==',   // TugACD1
+            'pro2b':   'VHVnUHJvMkI=',   // TugPro2B
+            'pro1b':   'VHVnUHJvMUI=',   // TugPro1B
+            '2prob':   'VHVnMlByb0I='    // Tug2ProB
         };
 
         function changerOnglet(evt, idClasse) {
