@@ -526,6 +526,25 @@ footer .heart {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Mise en page avec veille agronomique latérale */
+.home-layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:22px;align-items:start}
+.home-main-content{min-width:0}
+.home-main-content .intro{margin-top:8px}
+.agri-watch{position:sticky;top:18px;background:rgba(255,255,255,.94);border:1px solid rgba(38,131,77,.18);border-radius:22px;padding:16px;box-shadow:var(--shadow);max-height:calc(100vh - 36px);overflow:auto}
+.agri-watch-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+.agri-watch h2{font-size:19px;color:var(--green-dark)}
+.agri-watch-sub{font-size:12px;color:#6b806f;margin-bottom:12px}
+.agri-watch-status{font-size:10px;font-weight:700;color:#287344;background:#e4f5e6;border-radius:20px;padding:4px 8px;white-space:nowrap}
+.agri-watch-item{padding:11px 0;border-top:1px solid #e5eee3}
+.agri-watch-item a{color:#245d39;text-decoration:none;font-weight:700;font-size:13px;line-height:1.4}
+.agri-watch-item a:hover{text-decoration:underline}
+.agri-watch-meta{display:block;color:#78877b;font-size:11px;margin-top:4px}
+.agri-watch-source{display:block;color:#5f8067;font-size:10px;margin-top:2px}
+.agri-watch-loading,.agri-watch-error{font-size:12px;color:#687b6d;padding:12px 0}
+.agri-watch-footer{border-top:1px solid #e5eee3;padding-top:10px;font-size:11px;color:#748276}
+.agri-watch-refresh{border:0;border-radius:9px;background:#e5f3e5;color:#245d39;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer}
+@media(max-width:900px){.home-layout{grid-template-columns:1fr}.agri-watch{position:static;max-height:none;grid-row:2}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.agri-watch{order:3}}
 </style>
 </head>
 
@@ -585,6 +604,8 @@ footer .heart {
 
     </header>
 
+    <div class="home-layout">
+      <div class="home-main-content">
     <!-- INTRODUCTION -->
     <section class="intro">
         <h2>🌻 Choisis ta classe !</h2>
@@ -699,6 +720,24 @@ footer .heart {
         </div>
 
     </section>
+
+
+      </div>
+      <aside class="agri-watch" aria-label="Veille agronomique française">
+        <div class="agri-watch-head">
+          <h2>📰 Veille agronomique</h2>
+          <span class="agri-watch-status">FRANCE</span>
+        </div>
+        <p class="agri-watch-sub">Actualités agricoles et agronomiques françaises</p>
+        <div id="agriWatchItems" aria-live="polite">
+          <p class="agri-watch-loading">Chargement des dernières actualités…</p>
+        </div>
+        <div class="agri-watch-footer">
+          <button class="agri-watch-refresh" type="button" onclick="loadAgriWatch()">↻ Actualiser</button>
+          <span style="display:block;margin-top:8px">Flux consultés automatiquement · Liens vers les articles originaux</span>
+        </div>
+      </aside>
+    </div>
 
     <!-- PIED DE PAGE -->
     <footer>
@@ -979,6 +1018,58 @@ function logoutClass(id) {
    DEMARRAGE
 ================================= */
 
+
+/* Veille agronomique française : flux RSS relayés en JSON */
+const agriWatchFeeds = [
+  {name:"Ministère de l’Agriculture",url:"https://agriculture.gouv.fr/rss.xml"},
+  {name:"Veille CEP",url:"https://www.veillecep.fr/feed/"},
+  {name:"Agrobio Bretagne",url:"https://www.agrobio-bretagne.org/feed/"},
+  {name:"Agra Presse",url:"https://www.agra.fr/rss.xml"}
+];
+
+function escapeWatchHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+
+async function loadAgriWatch() {
+  const target = document.getElementById("agriWatchItems");
+  if (!target) return;
+  target.innerHTML = '<p class="agri-watch-loading">Mise à jour de la veille…</p>';
+  const requests = agriWatchFeeds.map(async feed => {
+    const endpoint = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(feed.url);
+    const response = await fetch(endpoint);
+    if (!response.ok) throw new Error("Flux indisponible");
+    const data = await response.json();
+    if (data.status !== "ok" || !Array.isArray(data.items)) throw new Error("Flux invalide");
+    return data.items.slice(0, 5).map(item => ({
+      title: item.title,
+      link: item.link,
+      date: item.pubDate,
+      source: feed.name
+    }));
+  });
+  const results = await Promise.allSettled(requests);
+  const articles = results.filter(x => x.status === "fulfilled").flatMap(x => x.value)
+    .filter(x => x.title && x.link && /^https?:\/\//i.test(x.link))
+    .sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0))
+    .filter((item,index,array) => array.findIndex(other => other.link === item.link) === index)
+    .slice(0, 8);
+
+  if (!articles.length) {
+    target.innerHTML = '<p class="agri-watch-error">Les flux ne répondent pas pour le moment. Réessaie plus tard ou consulte directement les sources ci-dessous.</p>' +
+      agriWatchFeeds.map(feed => '<div class="agri-watch-item"><a href="' + escapeWatchHtml(feed.url) + '" target="_blank" rel="noopener noreferrer">' + escapeWatchHtml(feed.name) + ' ↗</a></div>').join("");
+    return;
+  }
+
+  target.innerHTML = articles.map(item => {
+    const date = item.date ? new Date(item.date) : null;
+    const dateText = date && !isNaN(date) ? new Intl.DateTimeFormat("fr-FR",{day:"2-digit",month:"short",year:"numeric"}).format(date) : "";
+    return '<article class="agri-watch-item"><a href="' + escapeWatchHtml(item.link) + '" target="_blank" rel="noopener noreferrer">' +
+      escapeWatchHtml(item.title) + '</a><span class="agri-watch-meta">' + escapeWatchHtml(dateText) +
+      '</span><span class="agri-watch-source">' + escapeWatchHtml(item.source) + '</span></article>';
+  }).join("");
+}
+
 function updateLiveClock() {
     const now = new Date();
     const time = document.getElementById("liveClockTime");
@@ -1006,6 +1097,8 @@ document.addEventListener("DOMContentLoaded", function() {
     initializeClasses();
     updateLiveClock();
     setInterval(updateLiveClock, 1000);
+    loadAgriWatch();
+    setInterval(loadAgriWatch, 30 * 60 * 1000);
 });
 
 </script>
