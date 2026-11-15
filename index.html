@@ -124,6 +124,37 @@ body {
 .soil-gallery.g4 { left:58%; top:64%; width:130px; height:34px; transform:rotate(18deg); }
 
 
+/* Dossier pédagogique Pro2B */
+.dossier-link{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    max-width:520px;
+    margin:26px auto;
+    padding:20px 24px;
+    background:linear-gradient(135deg,#fff8df,#f1f8e9);
+    border:2px solid #d5a83b;
+    border-radius:16px;
+    color:#4d482d;
+    text-decoration:none;
+    font-weight:700;
+    font-size:1.12rem;
+    box-shadow:0 5px 15px rgba(0,0,0,.09);
+    transition:transform .2s,box-shadow .2s;
+}
+.dossier-link:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,.14);
+}
+.dossier-icon{font-size:2.2rem;}
+.dossier-link small{
+    display:block;
+    margin-top:4px;
+    font-size:.88rem;
+    font-weight:400;
+    color:#6b7058;
+}
+
 /* =================================
    CONTENU PRINCIPAL
 ================================= */
@@ -857,6 +888,25 @@ function unlockClass(id) {
 
     login.style.display = "none";
 
+    const classResources = id === "pro2b"
+        ? `
+            <a class="dossier-link"
+               href="https://formateuracd.github.io/Espace-l-ve---Cours-MP4-Plan-co/"
+               target="_blank" rel="noopener noreferrer">
+                <span class="dossier-icon">📁</span>
+                <span>
+                    Chapitre 2 Ecophyto
+                    <small>Ouvrir le dossier pédagogique</small>
+                </span>
+            </a>
+        `
+        : `
+            <p style="margin-top:12px;">
+                🌻 Il n'y a rien pour le moment, mais de belles
+                ressources pédagogiques arriveront bientôt !
+            </p>
+        `;
+
     content.innerHTML = `
 
         <div class="big-icon">🌱✨</div>
@@ -867,10 +917,7 @@ function unlockClass(id) {
             Bravo, ton accès est déverrouillé !
         </p>
 
-        <p style="margin-top:12px;">
-            🌻 Il n'y a rien pour le moment, mais de belles
-            ressources pédagogiques arriveront bientôt !
-        </p>
+        ${classResources}
 
         <button
             class="logout-button"
