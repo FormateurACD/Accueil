@@ -1145,8 +1145,8 @@ async function updateVisitCounters() {
     const workspace = "tugduals-team-6247";
     const dailyCounter = "un-suivi-des-visites-quotidiennes";
     const totalCounter = "un-compteur-general-des-visites";
-    const accessToken = "ut_lczcJXBCsqqcBgexPmatJJ3HmmKU2tA6w5WOvGEx";
-    const headers = { "Authorization": "Bearer " + accessToken };
+    // Les compteurs CounterAPI sont publics (configuration par défaut) :
+    // aucun jeton n'est nécessaire côté navigateur.
 
     const todayElement = document.getElementById("visitsToday");
     const totalElement = document.getElementById("visitsTotal");
@@ -1156,7 +1156,7 @@ async function updateVisitCounters() {
         const baseUrl = "https://api.counterapi.dev/v2/" + encodeURIComponent(workspace) + "/";
         // Une visite est ajoutée à chacun des deux compteurs.
         const increments = await Promise.all([
-            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/up", { method: "GET", headers, cache: "no-store" }),
+            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/up", { method: "GET", cache: "no-store" }),
             fetch(baseUrl + encodeURIComponent(totalCounter) + "/up", { method: "GET", headers, cache: "no-store" })
         ]);
         if (increments.some(response => !response.ok)) {
@@ -1164,7 +1164,7 @@ async function updateVisitCounters() {
         }
 
         const statsResponses = await Promise.all([
-            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/stats", { headers, cache: "no-store" }),
+            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/stats", { cache: "no-store" }),
             fetch(baseUrl + encodeURIComponent(totalCounter) + "/stats", { headers, cache: "no-store" })
         ]);
         if (statsResponses.some(response => !response.ok)) {
