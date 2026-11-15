@@ -983,7 +983,11 @@ function unlockClass(id) {
 
     login.style.display = "none";
 
-    const classResources = id === "pro2b"
+    const classResources = id === "acs"
+        ? `
+            <a class="ecophyto-link" href="https://formateuracd.github.io/La-photosynth-se/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir l’application La Photosynthèse"><img src="https://formateuracd.github.io/La-photosynth-se/" alt="La Photosynthèse — application interactive"></a>
+        `
+        : id === "pro2b"
         ? `
             <a class="ecophyto-link" href="https://formateuracd.github.io/Espace-l-ve---Cours-MP4-Plan-co/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le chapitre 2 Ecophyto"><img src="ecophyto.svg" alt="Écophyto — Réduire et améliorer l’utilisation des phytos"></a>
         `
