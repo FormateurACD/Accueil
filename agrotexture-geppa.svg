@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="t d">
+<title id="t">AgroTexture GEPPA</title><desc id="d">Triangle des textures du sol, sable, limon et argile</desc>
+<defs><clipPath id="tri"><path d="M360 35 L650 350 H70 Z"/></clipPath><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f3ead8"/></linearGradient></defs>
+<rect x="4" y="4" width="712" height="412" rx="34" fill="url(#bg)" stroke="#d9c7a7" stroke-width="5"/>
+<g clip-path="url(#tri)">
+<rect x="60" y="25" width="600" height="340" fill="#d9b36c"/>
+<path d="M360 35 L650 350 H360Z" fill="#9c704b"/>
+<path d="M360 35 L360 350 H70Z" fill="#b7a16c"/>
+<path d="M360 35 L505 193 L360 350 L215 193Z" fill="#8d9b62" opacity=".88"/>
+<path d="M360 35 L650 350 H70Z" fill="none" stroke="#604b35" stroke-width="8"/>
+<path d="M360 35V350 M70 350L505 193 M650 350L215 193" stroke="#fff8e8" stroke-width="5" opacity=".9"/>
+</g>
+<g font-family="Arial,sans-serif" font-weight="700" fill="#fff" text-anchor="middle" paint-order="stroke" stroke="#57442f" stroke-width="3">
+<text x="360" y="115" font-size="28">ARGILE</text><text x="220" y="285" font-size="27">LIMON</text><text x="500" y="285" font-size="27">SABLE</text>
+</g>
+<text x="360" y="392" font-family="Arial,sans-serif" font-size="30" font-weight="800" text-anchor="middle" fill="#59452f">AGROTEXTURE · GEPPA</text>
+</svg>
