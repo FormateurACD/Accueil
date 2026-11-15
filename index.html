@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Pédagogique — Classes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
+
+        /* Style des onglets (boutons) */
+        .onglets-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            background: #e4e7eb;
+            padding: 8px;
+            border-radius: 8px 8px 0 0;
+        }
+        .tab-btn {
+            background-color: #cbd5e1;
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .tab-btn:hover { background-color: #94a3b8; color: white; }
+        .tab-btn.active { background-color: #0056b3; color: white; }
+
+        /* Contenu des onglets */
+        .tab-panel {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+            border-top: none;
+        }
+        .tab-panel.active { display: block; }
+
+        /* Formulaire de connexion */
+        .zone-connexion {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin-top: 15px;
+        }
+        input[type="password"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            flex: 1;
+        }
+        button.action-btn {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button.action-btn:hover { background-color: #004494; }
+        .contenu-protege { display: none; margin-top: 20px; }
+        .erreur { color: #d9534f; font-size: 0.9em; margin-top: 8px; display: none; }
+        
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        a { text-decoration: none; color: #0056b3; font-weight: 500; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <h1>Espace Pédagogique par Classe</h1>
+
+    <!-- Barre de navigation des classes -->
+    <div class="onglets-bar">
+        <button class="tab-btn active" onclick="changerOnglet(event, 'acsagri')">ACS'agri</button>
+        <button class="tab-btn" onclick="changerOnglet(event, 'acd2')">ACD 2</button>
+        <button class="tab-btn" onclick="changerOnglet(event, 'acd1')">ACD 1</button>
+        <button class="tab-btn" onclick="changerOnglet(event, 'pro2b')">Pro2B</button>
+        <button class="tab-btn" onclick="changerOnglet(event, 'pro1b')">Pro1B</button>
+        <button class="tab-btn" onclick="changerOnglet(event, '2prob')">2ProB</button>
+    </div>
+
+    <!-- PANNEAU : ACS'agri -->
+    <div id="acsagri" class="tab-panel active">
+        <h2>Ressources — ACS'agri</h2>
+        <div id="login-acsagri" class="zone-connexion">
+            <input type="password" id="pass-acsagri" placeholder="Mot de passe ACS'agri..." onkeypress="if(event.key === 'Enter') debloquer('acsagri')">
+            <button class="action-btn" onclick="debloquer('acsagri')">Valider</button>
+        </div>
+        <p id="err-acsagri" class="erreur">Mot de passe incorrect.</p>
+        <div id="content-acsagri" class="contenu-protege">
+            <ul>
+                <li>📄 <a href="#">Activité 1 : Suivi de chantier</a></li>
+                <li>📄 <a href="#">Activité 2 : Gestion de projet</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PANNEAU : ACD 2 -->
+    <div id="acd2" class="tab-panel">
+        <h2>Ressources — ACD 2</h2>
+        <div id="login-acd2" class="zone-connexion">
+            <input type="password" id="pass-acd2" placeholder="Mot de passe ACD 2..." onkeypress="if(event.key === 'Enter') debloquer('acd2')">
+            <button class="action-btn" onclick="debloquer('acd2')">Valider</button>
+        </div>
+        <p id="err-acd2" class="erreur">Mot de passe incorrect.</p>
+        <div id="content-acd2" class="contenu-protege">
+            <ul>
+                <li>📄 <a href="#">Activité 1 : Étude technique</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PANNEAU : ACD 1 -->
+    <div id="acd1" class="tab-panel">
+        <h2>Ressources — ACD 1</h2>
+        <div id="login-acd1" class="zone-connexion">
+            <input type="password" id="pass-acd1" placeholder="Mot de passe ACD 1..." onkeypress="if(event.key === 'Enter') debloquer('acd1')">
+            <button class="action-btn" onclick="debloquer('acd1')">Valider</button>
+        </div>
+        <p id="err-acd1" class="erreur">Mot de passe incorrect.</p>
+        <div id="content-acd1" class="contenu-protege">
+            <ul>
+                <li>📄 <a href="#">Activité 1 : Bases du métier</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PANNEAU : Pro2B -->
+    <div id="pro2b" class="tab-panel">
+        <h2>Ressources — Pro2B</h2>
+        <div id="login-pro2b" class="zone-connexion">
+            <input type="password" id="pass-pro2b" placeholder="Mot de passe Pro2B..." onkeypress="if(event.key === 'Enter') debloquer('pro2b')">
+            <button class="action-btn" onclick="debloquer('pro2b')">Valider</button>
+        </div>
+        <p id="err-pro2b" class="erreur">Mot de passe incorrect.</p>
+        <div id="content-pro2b" class="contenu-protege">
+            <ul>
+                <li>📄 <a href="#">Activité 1 : Pratique atelier</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PANNEAU : Pro1B -->
+    <div id="pro1b" class="tab-panel">
+        <h2>Ressources — Pro1B</h2>
+        <div id="login-pro1b" class="zone-connexion">
+            <input type="password" id="pass-pro1b" placeholder="Mot de passe Pro1B..." onkeypress="if(event.key === 'Enter') debloquer('pro1b')">
+            <button class="action-btn" onclick="debloquer('pro1b')">Valider</button>
+        </div>
+        <p id="err-pro1b" class="erreur">Mot de passe incorrect.</p>
+        <div id="content-pro1b" class="contenu-protege">
+            <ul>
+                <li>📄 <a href="#">Activité 1 : Technologie pro</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PANNEAU : 2ProB -->
+    <div id="2prob" class="tab-panel">
+        <h2>Ressources — 2ProB</h2>
+        <div id="login-2prob" class="zone-connexion">
+            <input type="password" id="pass-2prob" placeholder="Mot de passe 2ProB..." onkeypress="if(event.key === 'Enter') debloquer('2prob')">
+            <button class="action-btn" onclick="debloquer('2prob')">Valider</button>
+        </div>
+        <p id="err-2prob" class="erreur">Mot de passe incorrect.</p>
+        <div id="content-2prob" class="contenu-protege">
+            <ul>
+                <li>📄 <a href="#">Activité 1 : Introduction</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- LOGIQUE JAVASCRIPT -->
+    <script>
+        // Mots de passe encodés en Base64 pour chaque classe
+        const MOTS_DE_PASSE = {
+            'acsagri': 'YWNzMjAyNg==',  // Correspond à "acs2026" (à modifier)
+            'acd2':    'YWNkMjAyNg==',  // Correspond à "acd2026" (à modifier)
+            'acd1':    'YWNkMjAxOQ==',  // Correspond à "acd2019" (à modifier)
+            'pro2b':   'cHJvMmIyMDI2=', // Correspond à "pro2b2026" (à modifier)
+            'pro1b':   'cHJvMWIyMDI2=', // Correspond à "pro1b2026" (à modifier)
+            '2prob':   'MnByb2IyMDI2='  // Correspond à "2prob2026" (à modifier)
+        };
+
+        // Gestion du changement d'onglets
+        function changerOnglet(evt, idClasse) {
+            const panels = document.getElementsByClassName('tab-panel');
+            for (let p of panels) { p.classList.remove('active'); }
+
+            const boutons = document.getElementsByClassName('tab-btn');
+            for (let b of boutons) { b.classList.remove('active'); }
+
+            document.getElementById(idClasse).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Vérification du mot de passe
+        function debloquer(classe) {
+            const champ = document.getElementById('pass-' + classe);
+            const erreur = document.getElementById('err-' + classe);
+            
+            if (btoa(champ.value) === MOTS_DE_PASSE[classe]) {
+                afficherContenu(classe);
+                sessionStorage.setItem('acces_' + classe, 'ok');
+            } else {
+                erreur.style.display = 'block';
+                champ.value = '';
+            }
+        }
+
+        function afficherContenu(classe) {
+            document.getElementById('login-' + classe).style.display = 'none';
+            document.getElementById('err-' + classe).style.display = 'none';
+            document.getElementById('content-' + classe).style.display = 'block';
+        }
+
+        // Restaure l'accès si l'élève a déjà validé le mot de passe pendant sa session
+        window.onload = function() {
+            for (const classe in MOTS_DE_PASSE) {
+                if (sessionStorage.getItem('acces_' + classe) === 'ok') {
+                    afficherContenu(classe);
+                }
+            }
+        };
+    </script>
+
+</body>
+</html>
