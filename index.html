@@ -543,7 +543,7 @@ footer .heart {
 .acd-watch-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid #e5eee3}
 .acd-watch-links a{font-size:11px;font-weight:700;text-decoration:none;color:#245d39;background:#eaf5e8;padding:7px 9px;border-radius:9px}
 .acd-watch-note{font-size:10px;line-height:1.45;color:#748276;margin-top:10px}
-.agri-watch{position:sticky;top:18px;background:rgba(255,255,255,.94);border:1px solid rgba(38,131,77,.18);border-radius:22px;padding:12px;box-shadow:var(--shadow);max-height:none;overflow:visible}
+.agri-watch{position:sticky;top:18px;display:flex;flex-direction:column;min-height:0;background:rgba(255,255,255,.94);border:1px solid rgba(38,131,77,.18);border-radius:22px;padding:12px;box-shadow:var(--shadow);overflow:hidden}.agri-watch #agriWatchItems{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}.agri-watch-footer{flex-shrink:0}
 .agri-watch-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
 .agri-watch h2{font-size:19px;color:var(--green-dark)}
 .agri-watch-sub{font-size:12px;color:#6b806f;margin-bottom:12px}
@@ -556,7 +556,7 @@ footer .heart {
 .agri-watch-loading,.agri-watch-error{font-size:12px;color:#687b6d;padding:12px 0}
 .agri-watch-footer{border-top:1px solid #e5eee3;padding-top:10px;font-size:11px;color:#748276}
 .agri-watch-refresh{border:0;border-radius:9px;background:#e5f3e5;color:#245d39;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer}
-@media(max-width:1100px){.home-layout{grid-template-columns:1fr 1fr}.home-main-content{grid-column:1 / -1;grid-row:1}.acd-watch{position:static;grid-column:1;grid-row:2;max-height:none}.agri-watch{position:static;grid-column:2;grid-row:2;max-height:none}}\n@media(max-width:650px){.home-layout{grid-template-columns:1fr}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.acd-watch{grid-column:1;grid-row:auto;order:3}.agri-watch{grid-column:1;grid-row:auto;order:4}}
+@media(max-width:1100px){.home-layout{grid-template-columns:1fr 1fr}.home-main-content{grid-column:1 / -1;grid-row:1}.acd-watch{position:static;grid-column:1;grid-row:2;max-height:none}.agri-watch{position:static;grid-column:2;grid-row:2;height:auto!important;overflow:visible}.agri-watch #agriWatchItems{overflow:visible}}\n@media(max-width:650px){.home-layout{grid-template-columns:1fr}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.acd-watch{grid-column:1;grid-row:auto;order:3}.agri-watch{grid-column:1;grid-row:auto;order:4}}
 </style>
 </head>
 
@@ -1107,6 +1107,19 @@ async function loadAgriWatch() {
   }).join("");
 }
 
+function syncAgriWatchHeight() {
+    const acdWatch = document.querySelector(".acd-watch");
+    const agriWatch = document.querySelector(".agri-watch");
+    if (!acdWatch || !agriWatch) return;
+    if (window.innerWidth > 1100) {
+        agriWatch.style.height = acdWatch.offsetHeight + "px";
+    } else {
+        agriWatch.style.height = "auto";
+    }
+}
+
+window.addEventListener("resize", syncAgriWatchHeight);
+
 function updateLiveClock() {
     const now = new Date();
     const time = document.getElementById("liveClockTime");
@@ -1134,6 +1147,7 @@ document.addEventListener("DOMContentLoaded", function() {
     initializeClasses();
     updateLiveClock();
     setInterval(updateLiveClock, 1000);
+    syncAgriWatchHeight();
     loadAgriWatch();
     setInterval(loadAgriWatch, 30 * 60 * 1000);
 });
