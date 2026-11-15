@@ -767,8 +767,11 @@ function initializeClasses() {
             </form>
         `;
 
-        // Restauration de la session
-        if (sessionStorage.getItem("unlocked_" + id) === "true") {
+        // Restauration de la session uniquement pour les espaces hébergés ici.
+        // ACD 1 et ACD 2 redirigent vers le site BTS-ACD après validation.
+        if (id === "acd1" || id === "acd2") {
+            sessionStorage.removeItem("unlocked_" + id);
+        } else if (sessionStorage.getItem("unlocked_" + id) === "true") {
             unlockClass(id);
         }
 
@@ -815,11 +818,17 @@ function loginClass(event, id) {
 
     if (enteredPassword === correctPassword) {
 
-        // Mémorisation pour la session en cours
-        sessionStorage.setItem("unlocked_" + id, "true");
-
         error.classList.remove("show");
 
+        // Les deux classes ACD rejoignent leur espace BTS dédié.
+        if (id === "acd1" || id === "acd2") {
+            sessionStorage.removeItem("unlocked_" + id);
+            window.location.href = "https://formateuracd.github.io/BTS-ACD/";
+            return;
+        }
+
+        // Mémorisation pour la session en cours des autres classes
+        sessionStorage.setItem("unlocked_" + id, "true");
         unlockClass(id);
 
     } else {
