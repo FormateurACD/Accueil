@@ -3,202 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Pédagogique — Classes</title>
+    <title>Espace Pédagogique - Lycée Pommerit</title>
     <style>
+        :root {
+            --primary: #8b0000;
+            --secondary: #2e7d32;
+            --accent: #f57c00;
+            --bg-gradient: linear-gradient(135deg, #f1f8e9 0%, #e3f2fd 100%);
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            background: var(--bg-gradient);
             color: #333;
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        h1 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
 
-        /* Style des onglets (boutons) */
+        header {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "🌿🦜";
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 1.8rem;
+        }
+
+        .logo {
+            max-width: 220px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin: 10px 0 5px 0;
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Barre des onglets */
         .onglets-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            background: #e4e7eb;
-            padding: 8px;
-            border-radius: 8px 8px 0 0;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 12px 12px 0 0;
+            backdrop-filter: blur(5px);
         }
+
         .tab-btn {
-            background-color: #cbd5e1;
+            background-color: #e2e8f0;
             border: none;
             outline: none;
-            padding: 10px 16px;
+            padding: 12px 18px;
             cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            border-radius: 6px;
-            transition: background 0.2s;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #475569;
         }
-        .tab-btn:hover { background-color: #94a3b8; color: white; }
-        .tab-btn.active { background-color: #0056b3; color: white; }
 
-        /* Contenu des onglets */
+        .tab-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), #b71c1c);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+        }
+
+        /* Panneaux de contenu */
         .tab-panel {
             display: none;
             background: white;
-            padding: 25px;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 30px;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
             border: 1px solid #cbd5e1;
             border-top: none;
+            animation: fadeIn 0.4s ease-in-out;
         }
-        .tab-panel.active { display: block; }
 
-        /* Formulaire de connexion */
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .panel-header h2 {
+            color: var(--secondary);
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
         .zone-connexion {
             display: flex;
-            gap: 10px;
-            max-width: 400px;
-            margin-top: 15px;
+            gap: 12px;
+            max-width: 450px;
+            margin: 20px 0;
         }
+
         input[type="password"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 12px 15px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
             flex: 1;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
         }
+
+        input[type="password"]:focus {
+            border-color: var(--secondary);
+        }
+
         button.action-btn {
-            padding: 10px 20px;
-            background-color: #0056b3;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--secondary), #1b5e20);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s, transform 0.2s;
         }
-        button.action-btn:hover { background-color: #004494; }
-        .contenu-protege { display: none; margin-top: 20px; }
-        .erreur { color: #d9534f; font-size: 0.9em; margin-top: 8px; display: none; }
-        
-        ul { list-style-type: none; padding: 0; }
-        li { margin-bottom: 10px; }
-        a { text-decoration: none; color: #0056b3; font-weight: 500; }
-        a:hover { text-decoration: underline; }
+
+        button.action-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .contenu-protege {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .erreur {
+            color: #d9534f;
+            font-size: 0.9em;
+            margin-top: 8px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .empty-notice {
+            color: #64748b;
+            font-style: italic;
+            margin: 0;
+        }
+
+        /* Pied de page */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #475569;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+
+        footer span {
+            color: var(--primary);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Espace Pédagogique par Classe</h1>
+    <div>
+        <header>
+            <img src="logo-pommerit.png" alt="Logo Lycée Pommerit" class="logo">
+            <h1>Espace Pédagogique Interactif</h1>
+            <div class="subtitle">🌱 🦜 Saisons & Ressources par Classe</div>
+        </header>
 
-    <!-- Barre de navigation des classes -->
-    <div class="onglets-bar">
-        <button class="tab-btn active" onclick="changerOnglet(event, 'acsagri')">ACS'agri</button>
-        <button class="tab-btn" onclick="changerOnglet(event, 'acd2')">ACD 2</button>
-        <button class="tab-btn" onclick="changerOnglet(event, 'acd1')">ACD 1</button>
-        <button class="tab-btn" onclick="changerOnglet(event, 'pro2b')">Pro2B</button>
-        <button class="tab-btn" onclick="changerOnglet(event, 'pro1b')">Pro1B</button>
-        <button class="tab-btn" onclick="changerOnglet(event, '2prob')">2ProB</button>
+        <!-- Barre de navigation des classes -->
+        <div class="onglets-bar">
+            <button class="tab-btn active" onclick="changerOnglet(event, 'TugACS1')">TugACS1</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'TugACD2')">TugACD2</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'TugACD1')">TugACD1</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'TugPro2B')">TugPro2B</button>
+            <button class="tab-btn" onclick="changerOnglet(event, 'TugPro1B')">TugPro1B</button>
+            <button class="tab-btn" onclick="changerOnglet(event, '2ProB')">2ProB</button>
+        </div>
+
+        <!-- PANNEAU : TugACS1 -->
+        <div id="TugACS1" class="tab-panel active">
+            <div class="panel-header">
+                <h2>Ressources — TugACS1</h2>
+                <span>🌱🌿</span>
+            </div>
+            <div id="login-TugACS1" class="zone-connexion">
+                <input type="password" id="pass-TugACS1" placeholder="Mot de passe TugACS1..." onkeypress="if(event.key === 'Enter') debloquer('TugACS1')">
+                <button class="action-btn" onclick="debloquer('TugACS1')">Valider</button>
+            </div>
+            <p id="err-TugACS1" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-TugACS1" class="contenu-protege">
+                <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
+            </div>
+        </div>
+
+        <!-- PANNEAU : TugACD2 -->
+        <div id="TugACD2" class="tab-panel">
+            <div class="panel-header">
+                <h2>Ressources — TugACD2</h2>
+                <span>🌻🌿</span>
+            </div>
+            <div id="login-TugACD2" class="zone-connexion">
+                <input type="password" id="pass-TugACD2" placeholder="Mot de passe TugACD2..." onkeypress="if(event.key === 'Enter') debloquer('TugACD2')">
+                <button class="action-btn" onclick="debloquer('TugACD2')">Valider</button>
+            </div>
+            <p id="err-TugACD2" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-TugACD2" class="contenu-protege">
+                <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
+            </div>
+        </div>
+
+        <!-- PANNEAU : TugACD1 -->
+        <div id="TugACD1" class="tab-panel">
+            <div class="panel-header">
+                <h2>Ressources — TugACD1</h2>
+                <span>🪴🌿</span>
+            </div>
+            <div id="login-TugACD1" class="zone-connexion">
+                <input type="password" id="pass-TugACD1" placeholder="Mot de passe TugACD1..." onkeypress="if(event.key === 'Enter') debloquer('TugACD1')">
+                <button class="action-btn" onclick="debloquer('TugACD1')">Valider</button>
+            </div>
+            <p id="err-TugACD1" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-TugACD1" class="contenu-protege">
+                <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
+            </div>
+        </div>
+
+        <!-- PANNEAU : TugPro2B -->
+        <div id="TugPro2B" class="tab-panel">
+            <div class="panel-header">
+                <h2>Ressources — TugPro2B</h2>
+                <span>🌳🌿</span>
+            </div>
+            <div id="login-TugPro2B" class="zone-connexion">
+                <input type="password" id="pass-TugPro2B" placeholder="Mot de passe TugPro2B..." onkeypress="if(event.key === 'Enter') debloquer('TugPro2B')">
+                <button class="action-btn" onclick="debloquer('TugPro2B')">Valider</button>
+            </div>
+            <p id="err-TugPro2B" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-TugPro2B" class="contenu-protege">
+                <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
+            </div>
+        </div>
+
+        <!-- PANNEAU : TugPro1B -->
+        <div id="TugPro1B" class="tab-panel">
+            <div class="panel-header">
+                <h2>Ressources — TugPro1B</h2>
+                <span>🍀🌿</span>
+            </div>
+            <div id="login-TugPro1B" class="zone-connexion">
+                <input type="password" id="pass-TugPro1B" placeholder="Mot de passe TugPro1B..." onkeypress="if(event.key === 'Enter') debloquer('TugPro1B')">
+                <button class="action-btn" onclick="debloquer('TugPro1B')">Valider</button>
+            </div>
+            <p id="err-TugPro1B" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-TugPro1B" class="contenu-protege">
+                <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
+            </div>
+        </div>
+
+        <!-- PANNEAU : 2ProB -->
+        <div id="2ProB" class="tab-panel">
+            <div class="panel-header">
+                <h2>Ressources — 2ProB</h2>
+                <span>🌾🌿</span>
+            </div>
+            <div id="login-2ProB" class="zone-connexion">
+                <input type="password" id="pass-2ProB" placeholder="Mot de passe 2ProB..." onkeypress="if(event.key === 'Enter') debloquer('2ProB')">
+                <button class="action-btn" onclick="debloquer('2ProB')">Valider</button>
+            </div>
+            <p id="err-2ProB" class="erreur">Mot de passe incorrect.</p>
+            <div id="content-2ProB" class="contenu-protege">
+                <p class="empty-notice">Aucune activité pour le moment. Revenez très vite ! 🦜</p>
+            </div>
+        </div>
     </div>
 
-    <!-- PANNEAU : ACS'agri -->
-    <div id="acsagri" class="tab-panel active">
-        <h2>Ressources — ACS'agri</h2>
-        <div id="login-acsagri" class="zone-connexion">
-            <input type="password" id="pass-acsagri" placeholder="Mot de passe ACS'agri..." onkeypress="if(event.key === 'Enter') debloquer('acsagri')">
-            <button class="action-btn" onclick="debloquer('acsagri')">Valider</button>
-        </div>
-        <p id="err-acsagri" class="erreur">Mot de passe incorrect.</p>
-        <div id="content-acsagri" class="contenu-protege">
-            <ul>
-                <li>📄 <a href="#">Activité 1 : Suivi de chantier</a></li>
-                <li>📄 <a href="#">Activité 2 : Gestion de projet</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- PANNEAU : ACD 2 -->
-    <div id="acd2" class="tab-panel">
-        <h2>Ressources — ACD 2</h2>
-        <div id="login-acd2" class="zone-connexion">
-            <input type="password" id="pass-acd2" placeholder="Mot de passe ACD 2..." onkeypress="if(event.key === 'Enter') debloquer('acd2')">
-            <button class="action-btn" onclick="debloquer('acd2')">Valider</button>
-        </div>
-        <p id="err-acd2" class="erreur">Mot de passe incorrect.</p>
-        <div id="content-acd2" class="contenu-protege">
-            <ul>
-                <li>📄 <a href="#">Activité 1 : Étude technique</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- PANNEAU : ACD 1 -->
-    <div id="acd1" class="tab-panel">
-        <h2>Ressources — ACD 1</h2>
-        <div id="login-acd1" class="zone-connexion">
-            <input type="password" id="pass-acd1" placeholder="Mot de passe ACD 1..." onkeypress="if(event.key === 'Enter') debloquer('acd1')">
-            <button class="action-btn" onclick="debloquer('acd1')">Valider</button>
-        </div>
-        <p id="err-acd1" class="erreur">Mot de passe incorrect.</p>
-        <div id="content-acd1" class="contenu-protege">
-            <ul>
-                <li>📄 <a href="#">Activité 1 : Bases du métier</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- PANNEAU : Pro2B -->
-    <div id="pro2b" class="tab-panel">
-        <h2>Ressources — Pro2B</h2>
-        <div id="login-pro2b" class="zone-connexion">
-            <input type="password" id="pass-pro2b" placeholder="Mot de passe Pro2B..." onkeypress="if(event.key === 'Enter') debloquer('pro2b')">
-            <button class="action-btn" onclick="debloquer('pro2b')">Valider</button>
-        </div>
-        <p id="err-pro2b" class="erreur">Mot de passe incorrect.</p>
-        <div id="content-pro2b" class="contenu-protege">
-            <ul>
-                <li>📄 <a href="#">Activité 1 : Pratique atelier</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- PANNEAU : Pro1B -->
-    <div id="pro1b" class="tab-panel">
-        <h2>Ressources — Pro1B</h2>
-        <div id="login-pro1b" class="zone-connexion">
-            <input type="password" id="pass-pro1b" placeholder="Mot de passe Pro1B..." onkeypress="if(event.key === 'Enter') debloquer('pro1b')">
-            <button class="action-btn" onclick="debloquer('pro1b')">Valider</button>
-        </div>
-        <p id="err-pro1b" class="erreur">Mot de passe incorrect.</p>
-        <div id="content-pro1b" class="contenu-protege">
-            <ul>
-                <li>📄 <a href="#">Activité 1 : Technologie pro</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- PANNEAU : 2ProB -->
-    <div id="2prob" class="tab-panel">
-        <h2>Ressources — 2ProB</h2>
-        <div id="login-2prob" class="zone-connexion">
-            <input type="password" id="pass-2prob" placeholder="Mot de passe 2ProB..." onkeypress="if(event.key === 'Enter') debloquer('2prob')">
-            <button class="action-btn" onclick="debloquer('2prob')">Valider</button>
-        </div>
-        <p id="err-2prob" class="erreur">Mot de passe incorrect.</p>
-        <div id="content-2prob" class="contenu-protege">
-            <ul>
-                <li>📄 <a href="#">Activité 1 : Introduction</a></li>
-            </ul>
-        </div>
-    </div>
+    <footer>
+        Fait avec amour par Tugdual Mazé &lt;3
+    </footer>
 
     <!-- LOGIQUE JAVASCRIPT -->
     <script>
-        // Mots de passe encodés en Base64 pour chaque classe
+        // Mots de passe encodés en Base64 (modifie les valeurs si besoin via la console F12 avec btoa("ton_mdp"))
         const MOTS_DE_PASSE = {
-            'acsagri': 'YWNzMjAyNg==',  // Correspond à "acs2026" (à modifier)
-            'acd2':    'YWNkMjAyNg==',  // Correspond à "acd2026" (à modifier)
-            'acd1':    'YWNkMjAxOQ==',  // Correspond à "acd2019" (à modifier)
-            'pro2b':   'cHJvMmIyMDI2=', // Correspond à "pro2b2026" (à modifier)
-            'pro1b':   'cHJvMWIyMDI2=', // Correspond à "pro1b2026" (à modifier)
-            '2prob':   'MnByb2IyMDI2='  // Correspond à "2prob2026" (à modifier)
+            'TugACS1':  'VHVnQUNTQzE=', // Exemple base64 pour "TugACS1"
+            'TugACD2':  'VHVnQUNEMg==', // Exemple base64 pour "TugACD2"
+            'TugACD1':  'VHVnQUNEMT==', // Exemple base64 pour "TugACD1"
+            'TugPro2B': 'VHVnUHJvMmI=', // Exemple base64 pour "TugPro2B"
+            'TugPro1B': 'VHVnUHJvMWI=', // Exemple base64 pour "TugPro1B"
+            '2ProB':    'MlByb0I='      // Exemple base64 pour "2ProB"
         };
 
-        // Gestion du changement d'onglets
         function changerOnglet(evt, idClasse) {
             const panels = document.getElementsByClassName('tab-panel');
             for (let p of panels) { p.classList.remove('active'); }
@@ -210,7 +354,6 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // Vérification du mot de passe
         function debloquer(classe) {
             const champ = document.getElementById('pass-' + classe);
             const erreur = document.getElementById('err-' + classe);
@@ -230,7 +373,6 @@
             document.getElementById('content-' + classe).style.display = 'block';
         }
 
-        // Restaure l'accès si l'élève a déjà validé le mot de passe pendant sa session
         window.onload = function() {
             for (const classe in MOTS_DE_PASSE) {
                 if (sessionStorage.getItem('acces_' + classe) === 'ok') {
