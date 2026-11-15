@@ -238,6 +238,7 @@ header p {
 .folder-card small{font-size:.95rem;font-weight:500;}
 .category-panel{text-align:center;margin:24px 0;}
 .category-panel h3{color:var(--green-dark);margin:18px 0;}
+.back-home{margin:0 0 22px 0;text-align:left;}
 .back-menu{display:block;margin:0 auto 18px;padding:9px 15px;border:1px solid #dcebd8;border-radius:10px;background:#f5faf0;color:var(--green-dark);font-weight:700;cursor:pointer;}
 
 .tabs {
@@ -578,7 +579,7 @@ footer .heart {
         </div>
 
         <div id="category-btsa" class="category-panel" style="display:none">
-            <button class="back-menu" onclick="showMainMenu()">← Retour aux dossiers</button>
+            <button class="back-menu" onclick="showMainMenu()">← Retour à l’accueil</button>
             <h3>🎓 Espace BTSA</h3>
             <div class="tabs" role="tablist" aria-label="Choix de la classe BTSA">
                 <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('acs', this)">🌱 ACS'agri</button>
@@ -588,7 +589,7 @@ footer .heart {
         </div>
 
         <div id="category-lycee" class="category-panel" style="display:none">
-            <button class="back-menu" onclick="showMainMenu()">← Retour aux dossiers</button>
+            <button class="back-menu" onclick="showMainMenu()">← Retour à l’accueil</button>
             <h3>🏫 Espace Lycée</h3>
             <div class="tabs" role="tablist" aria-label="Choix de la classe lycée">
                 <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('pro2b', this)">🌻 Pro2B</button>
@@ -601,6 +602,7 @@ footer .heart {
 
         <div id="panel-acs" class="class-panel"
              role="tabpanel" aria-labelledby="tab-acs">
+            <button class="back-menu back-home" onclick="showMainMenu()">← Retour à l’accueil</button>
             <div class="panel-header">
                 <h2>🌱 ACS'agri</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
@@ -611,6 +613,7 @@ footer .heart {
 
         <div id="panel-acd2" class="class-panel"
              role="tabpanel" aria-labelledby="tab-acd2">
+            <button class="back-menu back-home" onclick="showMainMenu()">← Retour à l’accueil</button>
             <div class="panel-header">
                 <h2>🌿 ACD 2</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
@@ -621,6 +624,7 @@ footer .heart {
 
         <div id="panel-acd1" class="class-panel"
              role="tabpanel" aria-labelledby="tab-acd1">
+            <button class="back-menu back-home" onclick="showMainMenu()">← Retour à l’accueil</button>
             <div class="panel-header">
                 <h2>🌳 ACD 1</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
@@ -631,6 +635,7 @@ footer .heart {
 
         <div id="panel-pro2b" class="class-panel"
              role="tabpanel" aria-labelledby="tab-pro2b">
+            <button class="back-menu back-home" onclick="showMainMenu()">← Retour à l’accueil</button>
             <div class="panel-header">
                 <h2>🌻 Pro2B</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
@@ -641,6 +646,7 @@ footer .heart {
 
         <div id="panel-pro1b" class="class-panel"
              role="tabpanel" aria-labelledby="tab-pro1b">
+            <button class="back-menu back-home" onclick="showMainMenu()">← Retour à l’accueil</button>
             <div class="panel-header">
                 <h2>🌼 Pro1B</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
@@ -651,6 +657,7 @@ footer .heart {
 
         <div id="panel-2prob" class="class-panel"
              role="tabpanel" aria-labelledby="tab-2prob">
+            <button class="back-menu back-home" onclick="showMainMenu()">← Retour à l’accueil</button>
             <div class="panel-header">
                 <h2>🌾 2ProB</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
