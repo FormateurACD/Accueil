@@ -192,6 +192,33 @@ header p {
     line-height: 1.6;
 }
 
+/* Horloge et date en direct */
+.live-clock {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 22px auto 0;
+    padding: 12px 24px;
+    border: 1px solid rgba(38,131,77,.2);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f2fae9, #ffffff);
+    box-shadow: 0 5px 16px rgba(28,76,47,.09);
+}
+.live-clock-time {
+    color: var(--green-dark);
+    font-size: clamp(28px, 5vw, 38px);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .04em;
+}
+.live-clock-date {
+    color: #607766;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
 .subtitle {
     margin-top: 8px;
     font-weight: 600;
@@ -550,6 +577,11 @@ footer .heart {
             🌾 Apprendre, explorer et cultiver ses connaissances...
             avec un petit youyou du Sénégal 🦜
         </p>
+
+        <div class="live-clock" aria-label="Heure et date actuelles">
+            <span class="live-clock-time" id="liveClockTime">--:--:--</span>
+            <span class="live-clock-date" id="liveClockDate">Chargement de la date…</span>
+        </div>
 
     </header>
 
@@ -947,10 +979,33 @@ function logoutClass(id) {
    DEMARRAGE
 ================================= */
 
+function updateLiveClock() {
+    const now = new Date();
+    const time = document.getElementById("liveClockTime");
+    const date = document.getElementById("liveClockDate");
+    if (!time || !date) return;
+
+    time.textContent = new Intl.DateTimeFormat("fr-FR", {
+        timeZone: "Europe/Paris",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hourCycle: "h23"
+    }).format(now);
+
+    date.textContent = new Intl.DateTimeFormat("fr-FR", {
+        timeZone: "Europe/Paris",
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    }).format(now);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
-
     initializeClasses();
-
+    updateLiveClock();
+    setInterval(updateLiveClock, 1000);
 });
 
 </script>
