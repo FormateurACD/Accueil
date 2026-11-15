@@ -229,6 +229,17 @@ header p {
     backdrop-filter: blur(10px);
 }
 
+/* Menu d’accueil : dossiers BTSA et Lycée */
+.class-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:760px;margin:30px auto;}
+.folder-card{display:flex;flex-direction:column;align-items:center;gap:10px;padding:30px 18px;border:2px solid #dcebd8;border-radius:20px;background:linear-gradient(145deg,#fbfff7,#eaf5e5);color:var(--green-dark);cursor:pointer;box-shadow:0 5px 16px rgba(35,90,45,.09);transition:transform .2s,box-shadow .2s;}
+.folder-card:hover{transform:translateY(-4px);box-shadow:0 9px 22px rgba(35,90,45,.16);}
+.folder-emoji{font-size:3.5rem;}
+.folder-card strong{font-size:1.5rem;}
+.folder-card small{font-size:.95rem;font-weight:500;}
+.category-panel{text-align:center;margin:24px 0;}
+.category-panel h3{color:var(--green-dark);margin:18px 0;}
+.back-menu{display:block;margin:0 auto 18px;padding:9px 15px;border:1px solid #dcebd8;border-radius:10px;background:#f5faf0;color:var(--green-dark);font-weight:700;cursor:pointer;}
+
 .tabs {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -553,61 +564,42 @@ footer .heart {
     <!-- ESPACE DES CLASSES -->
     <section class="classes-container">
 
-        <div class="tabs" role="tablist" aria-label="Choix de la classe">
-
-            <button class="tab-button active"
-                role="tab" aria-selected="true"
-                aria-controls="panel-acs"
-                id="tab-acs"
-                onclick="openTab('acs', this)">
-                🌱 ACS'agri
+        <div id="class-menu" class="class-menu">
+            <button class="folder-card" onclick="showCategory('btsa')">
+                <span class="folder-emoji">📁</span>
+                <strong>BTSA</strong>
+                <small>ACS’agri · ACD 1 · ACD 2</small>
             </button>
-
-            <button class="tab-button"
-                role="tab" aria-selected="false"
-                aria-controls="panel-acd2"
-                id="tab-acd2"
-                onclick="openTab('acd2', this)">
-                🌿 ACD 2
+            <button class="folder-card" onclick="showCategory('lycee')">
+                <span class="folder-emoji">📁</span>
+                <strong>Lycée</strong>
+                <small>Pro2B · Pro1B · 2ProB</small>
             </button>
+        </div>
 
-            <button class="tab-button"
-                role="tab" aria-selected="false"
-                aria-controls="panel-acd1"
-                id="tab-acd1"
-                onclick="openTab('acd1', this)">
-                🌳 ACD 1
-            </button>
+        <div id="category-btsa" class="category-panel" style="display:none">
+            <button class="back-menu" onclick="showMainMenu()">← Retour aux dossiers</button>
+            <h3>🎓 Espace BTSA</h3>
+            <div class="tabs" role="tablist" aria-label="Choix de la classe BTSA">
+                <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('acs', this)">🌱 ACS'agri</button>
+                <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('acd1', this)">🌳 ACD 1</button>
+                <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('acd2', this)">🌿 ACD 2</button>
+            </div>
+        </div>
 
-            <button class="tab-button"
-                role="tab" aria-selected="false"
-                aria-controls="panel-pro2b"
-                id="tab-pro2b"
-                onclick="openTab('pro2b', this)">
-                🌻 Pro2B
-            </button>
-
-            <button class="tab-button"
-                role="tab" aria-selected="false"
-                aria-controls="panel-pro1b"
-                id="tab-pro1b"
-                onclick="openTab('pro1b', this)">
-                🌼 Pro1B
-            </button>
-
-            <button class="tab-button"
-                role="tab" aria-selected="false"
-                aria-controls="panel-2prob"
-                id="tab-2prob"
-                onclick="openTab('2prob', this)">
-                🌾 2ProB
-            </button>
-
+        <div id="category-lycee" class="category-panel" style="display:none">
+            <button class="back-menu" onclick="showMainMenu()">← Retour aux dossiers</button>
+            <h3>🏫 Espace Lycée</h3>
+            <div class="tabs" role="tablist" aria-label="Choix de la classe lycée">
+                <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('pro2b', this)">🌻 Pro2B</button>
+                <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('pro1b', this)">🌼 Pro1B</button>
+                <button class="tab-button" role="tab" aria-selected="false" onclick="openTab('2prob', this)">🌾 2ProB</button>
+            </div>
         </div>
 
         <!-- PANNEAUX DES CLASSES -->
 
-        <div id="panel-acs" class="class-panel active"
+        <div id="panel-acs" class="class-panel"
              role="tabpanel" aria-labelledby="tab-acs">
             <div class="panel-header">
                 <h2>🌱 ACS'agri</h2>
@@ -788,7 +780,22 @@ function initializeClasses() {
    CHANGEMENT D'ONGLET
 ================================= */
 
+function showCategory(category) {
+    document.getElementById("class-menu").style.display = "none";
+    document.querySelectorAll(".category-panel").forEach(panel => panel.style.display = "none");
+    document.getElementById("category-" + category).style.display = "block";
+}
+
+function showMainMenu() {
+    document.querySelectorAll(".class-panel").forEach(panel => panel.classList.remove("active"));
+    document.querySelectorAll(".category-panel").forEach(panel => panel.style.display = "none");
+    document.getElementById("class-menu").style.display = "grid";
+}
+
 function openTab(id, button) {
+
+    document.getElementById("class-menu").style.display = "none";
+    document.querySelectorAll(".category-panel").forEach(panel => panel.style.display = "none");
 
     document.querySelectorAll(".class-panel").forEach(panel => {
         panel.classList.remove("active");
