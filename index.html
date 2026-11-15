@@ -218,6 +218,22 @@ header p {
     font-weight: 600;
     text-transform: capitalize;
 }
+.live-clock-visits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px 14px;
+    margin-top: 5px;
+    padding-top: 7px;
+    border-top: 1px solid rgba(38,131,77,.15);
+    color: #607766;
+    font-size: 11px;
+    font-weight: 600;
+}
+.live-clock-visits strong {
+    color: var(--green-dark);
+    font-variant-numeric: tabular-nums;
+}
 
 .subtitle {
     margin-top: 8px;
@@ -612,6 +628,10 @@ footer .heart {
         <div class="live-clock" aria-label="Heure et date actuelles">
             <span class="live-clock-time" id="liveClockTime">--:--:--</span>
             <span class="live-clock-date" id="liveClockDate">Chargement de la date…</span>
+            <div class="live-clock-visits" aria-live="polite">
+                <span>👀 Aujourd’hui : <strong id="visitsToday">…</strong></span>
+                <span>🌍 Depuis le début : <strong id="visitsTotal">…</strong></span>
+            </div>
         </div>
 
     </header>
@@ -1120,6 +1140,50 @@ function syncAgriWatchHeight() {
 
 window.addEventListener("resize", syncAgriWatchHeight);
 
+// Compteurs de visites CounterAPI (les appels sont faits depuis le navigateur).
+async function updateVisitCounters() {
+    const workspace = "tugduals-team-6247";
+    const dailyCounter = "un-suivi-des-visites-quotidiennes";
+    const totalCounter = "un-compteur-general-des-visites";
+    const accessToken = "ut_lczcJXBCsqqcBgexPmatJJ3HmmKU2tA6w5WOvGEx";
+    const headers = { "Authorization": "Bearer " + accessToken };
+
+    const todayElement = document.getElementById("visitsToday");
+    const totalElement = document.getElementById("visitsTotal");
+    if (!todayElement || !totalElement) return;
+
+    try {
+        const baseUrl = "https://api.counterapi.dev/v2/" + encodeURIComponent(workspace) + "/";
+        // Une visite est ajoutée à chacun des deux compteurs.
+        const increments = await Promise.all([
+            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/up", { method: "GET", headers, cache: "no-store" }),
+            fetch(baseUrl + encodeURIComponent(totalCounter) + "/up", { method: "GET", headers, cache: "no-store" })
+        ]);
+        if (increments.some(response => !response.ok)) {
+            throw new Error("Impossible d'incrémenter les compteurs (" + increments.map(r => r.status).join(", ") + ")");
+        }
+
+        const statsResponses = await Promise.all([
+            fetch(baseUrl + encodeURIComponent(dailyCounter) + "/stats", { headers, cache: "no-store" }),
+            fetch(baseUrl + encodeURIComponent(totalCounter) + "/stats", { headers, cache: "no-store" })
+        ]);
+        if (statsResponses.some(response => !response.ok)) {
+            throw new Error("Impossible de lire les statistiques");
+        }
+
+        const [dailyResult, totalResult] = await Promise.all(statsResponses.map(response => response.json()));
+        const todayCount = dailyResult.data?.stats?.today?.up;
+        const totalCount = totalResult.data?.up_count;
+
+        todayElement.textContent = Number.isFinite(Number(todayCount)) ? Number(todayCount).toLocaleString("fr-FR") : "—";
+        totalElement.textContent = Number.isFinite(Number(totalCount)) ? Number(totalCount).toLocaleString("fr-FR") : "—";
+    } catch (error) {
+        console.error("Erreur des compteurs CounterAPI :", error);
+        todayElement.textContent = "indisponible";
+        totalElement.textContent = "indisponible";
+    }
+}
+
 function updateLiveClock() {
     const now = new Date();
     const time = document.getElementById("liveClockTime");
@@ -1146,6 +1210,7 @@ function updateLiveClock() {
 document.addEventListener("DOMContentLoaded", function() {
     initializeClasses();
     updateLiveClock();
+    updateVisitCounters();
     setInterval(updateLiveClock, 1000);
     syncAgriWatchHeight();
     loadAgriWatch();
