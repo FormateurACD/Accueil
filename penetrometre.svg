@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-labelledby="title desc">
+<title id="title">Pénétr’Agri — Diagnostic de compaction des sols</title><desc id="desc">Logo représentant un pénétromètre avec manomètre et une coupe de sol.</desc>
+<defs><linearGradient id="soil" x2="0" y2="1"><stop stop-color="#8d5937"/><stop offset="1" stop-color="#c18b5c"/></linearGradient><linearGradient id="metal" x2="1"><stop stop-color="#64717d"/><stop offset=".5" stop-color="#e1e7eb"/><stop offset="1" stop-color="#65717d"/></linearGradient></defs>
+<rect width="640" height="300" rx="28" fill="#f8f3e9"/>
+<path d="M35 206 Q160 194 280 207 T605 204 V270 H35Z" fill="url(#soil)"/><path d="M35 206 Q160 194 280 207 T605 204" fill="none" stroke="#426b3d" stroke-width="12"/>
+<path d="M318 63h12v166h-12z" fill="url(#metal)" stroke="#47515b" stroke-width="2"/><path d="M313 228h22l-11 35z" fill="#4a5560"/>
+<rect x="286" y="43" width="76" height="14" rx="7" fill="#e5a900"/><path d="M324 43V29" stroke="#4a5560" stroke-width="8"/>
+<circle cx="324" cy="91" r="39" fill="#4a5560"/><circle cx="324" cy="91" r="32" fill="#fffdf5"/><path d="M300 104 A27 27 0 0 1 348 104" fill="none" stroke="#e2a900" stroke-width="5"/><path d="M324 91l15-20" stroke="#b83e32" stroke-width="3" stroke-linecap="round"/><circle cx="324" cy="91" r="4" fill="#303840"/>
+<g fill="#34443a" font-family="Arial,sans-serif"><text x="385" y="112" font-size="42" font-weight="800">Pénétr’Agri</text><text x="386" y="150" font-size="19" font-weight="700" fill="#6b5947">DIAGNOSTIC DE COMPACTION</text><text x="386" y="176" font-size="19" font-weight="700" fill="#6b5947">DES SOLS</text></g>
+<g stroke="#e4c49c" stroke-width="3" opacity=".8"><path d="M60 235h185M75 251h145M390 231h185M410 248h150"/></g></svg>
