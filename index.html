@@ -695,8 +695,8 @@ footer .heart {
             <div class="panel-header">
                 <h2>🌱 ACS'agri</h2>
                 <p>Bienvenue dans ton espace pédagogique.</p>
+                <img src="https://raw.githubusercontent.com/FormateurACD/Module-Agro-ecologie-BTS-ACSagri/main/logo-ecophyto.png" alt="Logo Écophyto — Réduire et améliorer l’utilisation des phytos" style="display:block;width:min(100%,440px);height:auto;margin:18px auto 0;border-radius:16px;">
             </div>
-            <a href="https://formateuracd.github.io/Accueil/acsagri/" class="login-button" style="display:block;text-decoration:none;margin:0 auto 18px;max-width:440px;">🌱 Ouvrir le Module Agro-écologie • BTS ACS’agri</a>
             <div id="login-acs" class="login-card"></div>
             <div id="content-acs" class="unlocked-content"></div>
         </div>
@@ -986,6 +986,7 @@ function unlockClass(id) {
 
     const classResources = id === "acs"
         ? `
+            <a class="ecophyto-link" href="https://formateuracd.github.io/Module-Agro-ecologie-BTS-ACSagri/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir le Module Agro-écologie BTS ACS'agri"><img src="https://raw.githubusercontent.com/FormateurACD/Module-Agro-ecologie-BTS-ACSagri/main/logo-ecophyto.png" alt="Ouvrir le Module Agro-écologie BTS ACS'agri — Écophyto"></a>
             <a class="ecophyto-link" href="https://formateuracd.github.io/La-photosynth-se/" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir l’application La Photosynthèse"><span style="display:inline-block;padding:15px 24px;background:#26834d;color:white;border-radius:12px;font-weight:750">🌿 Ouvrir l’application La Photosynthèse ↗</span></a>
         `
         : id === "pro2b"
