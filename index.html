@@ -1136,7 +1136,7 @@ async function loadAgriWatch() {
     .filter(x => x.title && x.link && /^https?:\/\//i.test(x.link) && plantProductionTerms.test(x.title))
     .sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0))
     .filter((item,index,array) => array.findIndex(other => other.link === item.link) === index)
-    .slice(0, 30);
+    .slice(0, 8);
 
   if (!articles.length) {
     target.innerHTML = '<p class="agri-watch-error">Les flux ne répondent pas pour le moment. Réessaie plus tard ou consulte directement les sources ci-dessous.</p>' +
