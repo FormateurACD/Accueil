@@ -1161,38 +1161,38 @@ function syncAgriWatchHeight() {
 
     if (window.innerWidth > 650) {
         const targetHeight = Math.round(acdWatch.getBoundingClientRect().height);
+        agriWatch.style.setProperty("box-sizing", "border-box", "important");
         agriWatch.style.setProperty("height", targetHeight + "px", "important");
         agriWatch.style.setProperty("max-height", targetHeight + "px", "important");
+        agriWatch.style.setProperty("min-height", "0", "important");
+        agriWatch.style.setProperty("display", "grid", "important");
+        agriWatch.style.setProperty("grid-template-rows", "auto auto minmax(0, 1fr) auto", "important");
         agriWatch.style.setProperty("overflow", "hidden", "important");
-        agriItems.style.setProperty("flex", "1 1 0px");
-        agriItems.style.setProperty("min-height", "0");
-        agriItems.style.setProperty("height", "0");
+
+        agriItems.style.setProperty("min-height", "0", "important");
+        agriItems.style.setProperty("height", "auto", "important");
         agriItems.style.setProperty("overflow-y", "auto", "important");
         agriItems.style.setProperty("overflow-x", "hidden", "important");
+        agriItems.style.setProperty("overscroll-behavior", "contain");
     } else {
-        agriWatch.style.removeProperty("height");
-        agriWatch.style.removeProperty("max-height");
-        agriWatch.style.removeProperty("overflow");
-        agriItems.style.removeProperty("height");
-        agriItems.style.removeProperty("flex");
-        agriItems.style.removeProperty("min-height");
-        agriItems.style.removeProperty("overflow-y");
-        agriItems.style.removeProperty("overflow-x");
+        ["box-sizing", "height", "max-height", "min-height", "display", "grid-template-rows", "overflow"].forEach(prop => agriWatch.style.removeProperty(prop));
+        ["min-height", "height", "overflow-y", "overflow-x", "overscroll-behavior"].forEach(prop => agriItems.style.removeProperty(prop));
     }
 }
 
-window.addEventListener("resize", syncAgriWatchHeight);
+window.addEventListener("resize", () => requestAnimationFrame(syncAgriWatchHeight));
 
-// Réajuste le panneau agronomique après le rendu et à chaque changement de hauteur du panneau BTS.
+// La hauteur de la colonne agronomique suit uniquement celle du panneau BTS.
+// La liste d'articles occupe la place restante et défile à l'intérieur.
 if ("ResizeObserver" in window) {
     const acdWatch = document.querySelector(".acd-watch");
-    const agriWatch = document.querySelector(".agri-watch");
-    const watchHeightObserver = new ResizeObserver(() => requestAnimationFrame(syncAgriWatchHeight));
-    if (acdWatch) watchHeightObserver.observe(acdWatch);
-    if (agriWatch) watchHeightObserver.observe(agriWatch);
+    if (acdWatch) {
+        const watchHeightObserver = new ResizeObserver(() => requestAnimationFrame(syncAgriWatchHeight));
+        watchHeightObserver.observe(acdWatch);
+    }
 }
 window.addEventListener("load", () => requestAnimationFrame(syncAgriWatchHeight));
-
+document.addEventListener("DOMContentLoaded", () => requestAnimationFrame(syncAgriWatchHeight));
 
 function updateLiveClock() {
     const now = new Date();
