@@ -556,7 +556,7 @@ footer .heart {
 .agri-watch-loading,.agri-watch-error{font-size:12px;color:#687b6d;padding:12px 0}
 .agri-watch-footer{border-top:1px solid #e5eee3;padding-top:10px;font-size:11px;color:#748276}
 .agri-watch-refresh{border:0;border-radius:9px;background:#e5f3e5;color:#245d39;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer}
-@media(max-width:1100px){.home-layout{grid-template-columns:1fr 1fr;align-items:stretch}.home-main-content{grid-column:1 / -1;grid-row:1}.acd-watch{position:static;grid-column:1;grid-row:2;max-height:none;height:auto}.agri-watch{position:static;grid-column:2;grid-row:2;height:auto!important;max-height:none!important;overflow:hidden;min-height:0}.agri-watch #agriWatchItems{overflow-y:auto;overflow-x:hidden}}\n@media(max-width:650px){.home-layout{grid-template-columns:1fr;align-items:start}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.acd-watch{grid-column:1;grid-row:auto;order:3}.agri-watch{grid-column:1;grid-row:auto;order:4;height:auto!important;max-height:none!important;overflow:visible}.agri-watch #agriWatchItems{overflow:visible}}
+@media(max-width:1100px){.home-layout{grid-template-columns:1fr 1fr;align-items:start}.home-main-content{grid-column:1 / -1;grid-row:1}.acd-watch{position:static;grid-column:1;grid-row:2;max-height:none;height:auto}.agri-watch{position:static;grid-column:2;grid-row:2;min-height:0;overflow:hidden}.agri-watch #agriWatchItems{overflow-y:auto;overflow-x:hidden}}\n@media(max-width:650px){.home-layout{grid-template-columns:1fr;align-items:start}.home-main-content{display:contents}.home-main-content .intro{order:1}.home-main-content .classes-container{order:2}.acd-watch{grid-column:1;grid-row:auto;order:3}.agri-watch{grid-column:1;grid-row:auto;order:4;height:auto!important;max-height:none!important;overflow:visible}.agri-watch #agriWatchItems{overflow:visible}}
 </style>
 </head>
 
@@ -1124,7 +1124,7 @@ async function loadAgriWatch() {
     if (!response.ok) throw new Error("Flux indisponible");
     const data = await response.json();
     if (data.status !== "ok" || !Array.isArray(data.items)) throw new Error("Flux invalide");
-    return data.items.slice(0, 5).map(item => ({
+    return data.items.slice(0, 10).map(item => ({
       title: item.title,
       link: item.link,
       date: item.pubDate,
@@ -1136,7 +1136,7 @@ async function loadAgriWatch() {
     .filter(x => x.title && x.link && /^https?:\/\//i.test(x.link) && plantProductionTerms.test(x.title))
     .sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0))
     .filter((item,index,array) => array.findIndex(other => other.link === item.link) === index)
-    .slice(0, 8);
+    .slice(0, 30);
 
   if (!articles.length) {
     target.innerHTML = '<p class="agri-watch-error">Les flux ne répondent pas pour le moment. Réessaie plus tard ou consulte directement les sources ci-dessous.</p>' +
@@ -1158,8 +1158,8 @@ function syncAgriWatchHeight() {
     const agriWatch = document.querySelector(".agri-watch");
     if (!acdWatch || !agriWatch) return;
 
-    if (window.innerWidth > 1100) {
-        // Les deux encadrés latéraux conservent exactement la même hauteur.
+    if (window.innerWidth > 650) {
+        // La carte BTS garde sa hauteur naturelle ; seule la liste agronomique défile.
         const targetHeight = Math.ceil(acdWatch.getBoundingClientRect().height);
         agriWatch.style.height = targetHeight + "px";
         agriWatch.style.maxHeight = targetHeight + "px";
