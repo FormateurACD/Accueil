@@ -1157,14 +1157,28 @@ function syncAgriWatchHeight() {
     const acdWatch = document.querySelector(".acd-watch");
     const agriWatch = document.querySelector(".agri-watch");
     if (!acdWatch || !agriWatch) return;
+
     if (window.innerWidth > 1100) {
-        agriWatch.style.height = acdWatch.offsetHeight + "px";
+        // Les deux encadrés latéraux conservent exactement la même hauteur.
+        const targetHeight = Math.ceil(acdWatch.getBoundingClientRect().height);
+        agriWatch.style.height = targetHeight + "px";
+        agriWatch.style.maxHeight = targetHeight + "px";
     } else {
         agriWatch.style.height = "auto";
+        agriWatch.style.maxHeight = "none";
     }
 }
 
 window.addEventListener("resize", syncAgriWatchHeight);
+
+// Réajuste la veille agronomique si la hauteur de la carte BTS change.
+if ("ResizeObserver" in window) {
+    const acdWatch = document.querySelector(".acd-watch");
+    if (acdWatch) {
+        const watchHeightObserver = new ResizeObserver(syncAgriWatchHeight);
+        watchHeightObserver.observe(acdWatch);
+    }
+}
 
 
 function updateLiveClock() {
