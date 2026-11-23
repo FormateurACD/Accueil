@@ -762,7 +762,7 @@ footer .heart {
             <p>Observer, mesurer et comprendre les sols directement sur le terrain.</p>
         </div>
         <div class="acd-slideshow-frame">
-            <img class="acd-slide-image" src="photos-acd/terrain-prelevement.jpg"
+            <img class="acd-slide-image" src="terrain-prelevement.jpg"
                  alt="Étudiant réalisant un prélèvement de sol accompagné par un camarade" loading="lazy">
             <button class="acd-slide-arrow acd-slide-prev" type="button" aria-label="Photo précédente">‹</button>
             <button class="acd-slide-arrow acd-slide-next" type="button" aria-label="Photo suivante">›</button>
@@ -804,10 +804,10 @@ footer .heart {
         if(!root||root.dataset.initialized)return;
         root.dataset.initialized="true";
         const slides=[
-            {src:"photos-acd/terrain-prelevement.jpg",alt:"Étudiant réalisant un prélèvement de sol accompagné par un camarade"},
-            {src:"photos-acd/terrain-groupe.jpg",alt:"Un étudiant présente une motte de terre au groupe pendant la sortie de terrain"},
-            {src:"photos-acd/terrain-mesure.jpg",alt:"Les étudiants observent une mesure réalisée dans le sol"},
-            {src:"photos-acd/terrain-observation.jpg",alt:"Les étudiants observent une fosse pédologique sur une parcelle"}
+            {src:"terrain-prelevement.jpg",alt:"Étudiant réalisant un prélèvement de sol accompagné par un camarade"},
+            {src:"terrain-groupe.jpg",alt:"Un étudiant présente une motte de terre au groupe pendant la sortie de terrain"},
+            {src:"terrain-mesure.jpg",alt:"Les étudiants observent une mesure réalisée dans le sol"},
+            {src:"terrain-observation.jpg",alt:"Les étudiants observent une fosse pédologique sur une parcelle"}
         ];
         const img=root.querySelector(".acd-slide-image"),counter=root.querySelector(".acd-slide-counter");
         const dots=[...root.querySelectorAll(".acd-slide-dot")];let index=0,timer;
