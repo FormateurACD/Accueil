@@ -647,6 +647,75 @@ footer .heart {
             Sélectionne ton espace pédagogique pour accéder à tes ressources.
             Chaque classe possède son propre accès.
         </p>
+
+    <!-- DIAPORAMA PHOTOS BTS ACD -->
+    <section class="acd-slideshow" aria-label="Reportage photo des étudiants de BTS ACD">
+        <div class="acd-slideshow-heading">
+            <span class="acd-slideshow-kicker">🌱 Apprendre sur le terrain</span>
+            <h2>Les BTS ACD en pratique</h2>
+            <p>Observer, mesurer et comprendre les sols directement sur le terrain.</p>
+        </div>
+        <div class="acd-slideshow-frame">
+            <img class="acd-slide-image" src="photos-acd/terrain-prelevement.jpg"
+                 alt="Étudiant réalisant un prélèvement de sol accompagné par un camarade" loading="lazy">
+            <button class="acd-slide-arrow acd-slide-prev" type="button" aria-label="Photo précédente">‹</button>
+            <button class="acd-slide-arrow acd-slide-next" type="button" aria-label="Photo suivante">›</button>
+            <div class="acd-slide-counter" aria-live="polite">1 / 4</div>
+        </div>
+        <div class="acd-slide-controls">
+            <div class="acd-slide-dots" aria-label="Choisir une photographie">
+                <button type="button" class="acd-slide-dot is-active" aria-label="Afficher la photo 1" aria-current="true"></button>
+                <button type="button" class="acd-slide-dot" aria-label="Afficher la photo 2"></button>
+                <button type="button" class="acd-slide-dot" aria-label="Afficher la photo 3"></button>
+                <button type="button" class="acd-slide-dot" aria-label="Afficher la photo 4"></button>
+            </div>
+            <span class="acd-slide-credit">Photographies : Agathe AUTRET – ACD 2</span>
+        </div>
+    </section>
+
+    <style>
+    .acd-slideshow{margin:26px 0 32px;padding:20px;border:1px solid rgba(38,131,77,.18);border-radius:24px;background:rgba(255,255,255,.94);box-shadow:var(--shadow)}
+    .acd-slideshow-heading{text-align:center;margin-bottom:15px}
+    .acd-slideshow-kicker{display:inline-block;margin-bottom:7px;color:var(--green);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .acd-slideshow-heading h2{color:var(--green-dark);font-size:clamp(21px,3vw,27px);margin-bottom:7px}
+    .acd-slideshow-heading p{color:#64796b;font-size:14px;line-height:1.5}
+    .acd-slideshow-frame{position:relative;overflow:hidden;border-radius:17px;background:#e8eee5;aspect-ratio:4/3}
+    .acd-slide-image{display:block;width:100%;height:100%;object-fit:contain}
+    .acd-slide-arrow{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border:0;border-radius:50%;background:rgba(23,77,53,.84);color:#fff;font-size:30px;line-height:1;cursor:pointer;display:grid;place-items:center}
+    .acd-slide-prev{left:12px}.acd-slide-next{right:12px}
+    .acd-slide-counter{position:absolute;right:12px;bottom:12px;padding:5px 10px;border-radius:20px;color:#fff;background:rgba(0,0,0,.58);font-size:12px;font-weight:700}
+    .acd-slide-controls{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-top:13px}
+    .acd-slide-dots{display:flex;align-items:center;gap:8px}
+    .acd-slide-dot{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:#c6d8c5;cursor:pointer}
+    .acd-slide-dot.is-active{width:23px;border-radius:10px;background:var(--green)}
+    .acd-slide-credit{color:#687b6d;font-size:11px;font-style:italic}
+    @media(max-width:650px){.acd-slideshow{padding:14px;margin:20px 0}.acd-slide-arrow{width:36px;height:36px;font-size:25px}.acd-slide-credit{width:100%;text-align:center}}
+    @media(prefers-reduced-motion:reduce){.acd-slide-image{transition:none}}
+    </style>
+    <script>
+    (() => {
+        const root=document.querySelector(".acd-slideshow");
+        if(!root||root.dataset.initialized)return;
+        root.dataset.initialized="true";
+        const slides=[
+            {src:"photos-acd/terrain-prelevement.jpg",alt:"Étudiant réalisant un prélèvement de sol accompagné par un camarade"},
+            {src:"photos-acd/terrain-groupe.jpg",alt:"Un étudiant présente une motte de terre au groupe pendant la sortie de terrain"},
+            {src:"photos-acd/terrain-mesure.jpg",alt:"Les étudiants observent une mesure réalisée dans le sol"},
+            {src:"photos-acd/terrain-observation.jpg",alt:"Les étudiants observent une fosse pédologique sur une parcelle"}
+        ];
+        const img=root.querySelector(".acd-slide-image"),counter=root.querySelector(".acd-slide-counter");
+        const dots=[...root.querySelectorAll(".acd-slide-dot")];let index=0,timer;
+        function show(n){index=(n+slides.length)%slides.length;img.src=slides[index].src;img.alt=slides[index].alt;counter.textContent=(index+1)+" / "+slides.length;dots.forEach((d,i)=>{d.classList.toggle("is-active",i===index);if(i===index)d.setAttribute("aria-current","true");else d.removeAttribute("aria-current")})}
+        function restart(){clearInterval(timer);if(!matchMedia("(prefers-reduced-motion: reduce)").matches)timer=setInterval(()=>show(index+1),5000)}
+        root.querySelector(".acd-slide-prev").addEventListener("click",()=>{show(index-1);restart()});
+        root.querySelector(".acd-slide-next").addEventListener("click",()=>{show(index+1);restart()});
+        dots.forEach((d,i)=>d.addEventListener("click",()=>{show(i);restart()}));
+        root.addEventListener("mouseenter",()=>clearInterval(timer));root.addEventListener("mouseleave",restart);
+        root.addEventListener("focusin",()=>clearInterval(timer));root.addEventListener("focusout",restart);
+        show(0);restart();
+    })();
+    </script>
+
     </section>
 
     <!-- ESPACE DES CLASSES -->
