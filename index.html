@@ -621,18 +621,45 @@ footer .heart {
           <span class="acd-watch-status">ACD UNIQUEMENT</span>
         </div>
         <p class="acd-watch-sub">La vie des étudiants et les actualités de la filière Agronomie et Cultures Durables à Pommerit</p>
-        <article class="acd-watch-item">
-          <a href="https://www.lycee.pommerit.fr/Les-BTS-ACD-1-a-la-station-experimentale-de-Kerguehennec" target="_blank" rel="noopener noreferrer">Les BTS ACD 1 à la station expérimentale de Kerguéhennec ↗</a>
-          <span class="acd-watch-meta">28 septembre 2026 · Lycée Pommerit</span>
-        </article>
-        <article class="acd-watch-item">
-          <a href="https://www.lycee.pommerit.fr/BTS-ACD-1-cap-sur-le-Quebec" target="_blank" rel="noopener noreferrer">BTS ACD 1 : cap sur le Québec ! ↗</a>
-          <span class="acd-watch-meta">4 juin 2026 · Lycée Pommerit</span>
-        </article>
-        <article class="acd-watch-item">
-          <a href="https://www.lycee.pommerit.fr/Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden" target="_blank" rel="noopener noreferrer">Les BTS ACD découvrent la plateforme d’essais Eureden ↗</a>
-          <span class="acd-watch-meta">15 avril 2026 · Lycée Pommerit</span>
-        </article>
+        <div id="acd-watch-feed" aria-live="polite">
+          <p class="acd-watch-note">Chargement des dernières actualités du site officiel…</p>
+        </div>
+        <noscript><p class="acd-watch-note">Active JavaScript pour afficher les dernières actualités BTS ACD.</p></noscript>
+        <script>
+        (async () => {
+          const feed = document.getElementById("acd-watch-feed");
+          if (!feed) return;
+          try {
+            const response = await fetch("acd-news.json", { cache: "no-store" });
+            if (!response.ok) throw new Error("Flux indisponible");
+            const data = await response.json();
+            feed.replaceChildren();
+            if (!data.items || !data.items.length) {
+              const empty = document.createElement("p");
+              empty.className = "acd-watch-note";
+              empty.textContent = "Aucune actualité BTS ACD récente détectée sur le site officiel.";
+              feed.appendChild(empty);
+              return;
+            }
+            data.items.slice(0, 5).forEach(item => {
+              const article = document.createElement("article");
+              article.className = "acd-watch-item";
+              const link = document.createElement("a");
+              link.href = item.url;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              link.textContent = item.title + " ↗";
+              const meta = document.createElement("span");
+              meta.className = "acd-watch-meta";
+              meta.textContent = item.date ? item.date + " · Lycée Pommerit" : "Lycée Pommerit";
+              article.append(link, meta);
+              feed.appendChild(article);
+            });
+          } catch (error) {
+            feed.innerHTML = '<p class="acd-watch-note">Les actualités officielles seront affichées après la première mise à jour automatique.</p>';
+          }
+        })();
+        </script>
         <div class="acd-watch-links">
           <a href="https://www.instagram.com/lyceepommerit/" target="_blank" rel="noopener noreferrer">Instagram Pommerit ↗</a>
           <a href="https://fr.linkedin.com/company/lyc%C3%A9e-pommerit" target="_blank" rel="noopener noreferrer">LinkedIn Pommerit ↗</a>
