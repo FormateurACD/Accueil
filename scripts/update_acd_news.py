@@ -74,7 +74,7 @@ for url in candidate_urls:
 
         article = page.find("article") or page.find("main") or page.select_one("#content, #contenu") or page.body or page
         article_text = " ".join(article.get_text(" ", strip=True).split())
-        if not ACD.search(title + " " + article_text):
+        if not ACD.search(title):
             continue
         if re.fullmatch(r"BTS\s*ACD\s*:?\s*Agronomie\s+Cultures\s+Durables", title, re.I):
             continue
