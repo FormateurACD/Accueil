@@ -12,8 +12,8 @@ from bs4 import BeautifulSoup
 BASE = "https://www.lycee.pommerit.fr/"
 NEWS = urljoin(BASE, "-Actualites-")
 HEADERS = {"User-Agent": "SolActif-ACD-NewsBot/1.0 (veille pédagogique)"}
-KEYWORDS = re.compile(r"bts\\s*acd|btsa.{0,50}agronomie.{0,50}cultures durables|agronomie.{0,50}cultures durables", re.I)
-DATE = re.compile(r"(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)?\\s*\\d{1,2}\\s+[a-zéû]+\\s+20\\d{2}", re.I)
+KEYWORDS = re.compile(r"bts\s*acd|btsa.{0,50}agronomie.{0,50}cultures durables|agronomie.{0,50}cultures durables", re.I)
+DATE = re.compile(r"(?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)?\s*\d{1,2}\s+[a-zéû]+\s+20\d{2}", re.I)
 
 session = requests.Session()
 session.headers.update(HEADERS)
@@ -73,5 +73,5 @@ payload = {
     "count": len(unique),
     "items": unique,
 }
-Path("acd-news.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+Path("acd-news.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 print(f"{len(unique)} actualité(s) BTS ACD trouvée(s).")
