@@ -1,0 +1,35 @@
+name: Actualités BTS ACD - Lycée Pommerit
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Installer les dépendances
+        run: pip install requests beautifulsoup4
+      - name: Récupérer les actualités officielles BTS ACD
+        run: python scripts/update_acd_news.py
+      - name: Publier le fichier d'actualités si nécessaire
+        run: |
+          if git diff --quiet -- acd-news.json; then
+            echo "Aucune nouvelle actualité."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add acd-news.json
+            git commit -m "Actualiser les actualités BTS ACD"
+            git push
+          fi
