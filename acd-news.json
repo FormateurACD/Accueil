@@ -1,12 +1,22 @@
 {
   "source": "https://www.lycee.pommerit.fr/-Actualites-",
-  "updated_at": "2026-11-23T00:00:00Z",
-  "count": 1,
+  "updated_at": "2026-11-23T19:59:40.113Z",
+  "count": 3,
   "items": [
     {
       "title": "Les BTS ACD 1 à la station expérimentale de Kerguéhennec",
       "url": "https://www.lycee.pommerit.fr/Les-BTS-ACD-1-a-la-station-experimentale-de-Kerguehennec",
       "date": "lundi 28 septembre 2026"
+    },
+    {
+      "title": "BTS ACD 1 : cap sur le Québec !",
+      "url": "https://www.lycee.pommerit.fr/BTS-ACD-1-cap-sur-le-Quebec",
+      "date": "jeudi 4 juin 2026"
+    },
+    {
+      "title": "Les BTS ACD découvrent la plateforme d’essais Eureden",
+      "url": "https://www.lycee.pommerit.fr/Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden",
+      "date": "mercredi 15 avril 2026"
     }
   ]
 }
