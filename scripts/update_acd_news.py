@@ -46,12 +46,43 @@ for sitemap_url in (urljoin(BASE, "sitemap.xml"), urljoin(BASE, "spip.php?page=s
     except (requests.RequestException, ET.ParseError) as exc:
         print(f"Sitemap indisponible ({sitemap_url}): {exc}")
 
+# Source principale de découverte : la rubrique Actualités du lycée.
+# Le site utilise une pagination SPIP (debut_articles=0, 10, 20, ...).
+# On parcourt les pages récentes indépendamment du sitemap, qui peut être incomplet.
+news_index = urljoin(BASE, "-Actualites-")
+for offset in range(0, 301, 10):
+    listing_url = news_index if offset == 0 else f"{news_index}?debut_articles={offset}"
+    try:
+        listing = soup(listing_url)
+        container = listing.find("main") or listing.select_one("#content, #contenu") or listing
+        found_on_page = 0
+        for link in container.find_all("a", href=True):
+            href = urljoin(listing_url, link["href"])
+            parsed = urlparse(href)
+            label = " ".join(link.get_text(" ", strip=True).split())
+            if parsed.netloc != HOST or not parsed.path or not label:
+                continue
+            if parsed.path.rstrip("/") == urlparse(news_index).path.rstrip("/"):
+                continue
+            if parsed.path.lower().endswith((".pdf", ".jpg", ".jpeg", ".png", ".webp")):
+                continue
+            # Les liens d'articles de la liste ont un libellé éditorial.
+            if len(label) < 12:
+                continue
+            urls.add(href.split("#")[0])
+            found_on_page += 1
+        print(f"Rubrique actualités {offset}: {found_on_page} lien(s) repéré(s)")
+        if found_on_page == 0:
+            break
+    except requests.RequestException as exc:
+        print(f"Rubrique actualités indisponible ({listing_url}): {exc}")
+        break
+
 # Filet de sécurité : articles ACD officiels déjà repérés sur le site.
 known = [
     "Les-BTS-ACD-1-a-la-station-experimentale-de-Kerguehennec",
     "BTS-ACD-1-cap-sur-le-Quebec",
     "Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden",
-    "Salon-Azimut-a-Quimper-cultive-ton-orientation-avec-le-BTS-ACD",
 ]
 for slug in known:
     urls.add(urljoin(BASE, slug))
@@ -113,9 +144,6 @@ verified = [
     {"title": "Les BTS ACD découvrent la plateforme d’essais Eureden",
      "url": "https://www.lycee.pommerit.fr/Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden",
      "date": "mercredi 15 avril 2026"},
-    {"title": "Salon Azimut à Quimper : cultive ton orientation avec le BTS ACD",
-     "url": "https://www.lycee.pommerit.fr/Salon-Azimut-a-Quimper-cultive-ton-orientation-avec-le-BTS-ACD",
-     "date": "mardi 24 novembre 2026"},
 ]
 
 # Fusionne les pages trouvées et les articles de secours, puis classe
