@@ -51,6 +51,7 @@ known = [
     "Les-BTS-ACD-1-a-la-station-experimentale-de-Kerguehennec",
     "BTS-ACD-1-cap-sur-le-Quebec",
     "Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden",
+    "Salon-Azimut-a-Quimper-cultive-ton-orientation-avec-le-BTS-ACD",
 ]
 for slug in known:
     urls.add(urljoin(BASE, slug))
@@ -112,17 +113,46 @@ verified = [
     {"title": "Les BTS ACD découvrent la plateforme d’essais Eureden",
      "url": "https://www.lycee.pommerit.fr/Les-BTS-ACD-decouvrent-la-plateforme-d-essais-Eureden",
      "date": "mercredi 15 avril 2026"},
+    {"title": "Salon Azimut à Quimper : cultive ton orientation avec le BTS ACD",
+     "url": "https://www.lycee.pommerit.fr/Salon-Azimut-a-Quimper-cultive-ton-orientation-avec-le-BTS-ACD",
+     "date": "mardi 24 novembre 2026"},
 ]
 
-# Les articles vérifiés sont prioritaires ; les nouvelles pages trouvées
-# automatiquement sont ajoutées ensuite, sans doublons.
-unique = []
-seen = set()
+# Fusionne les pages trouvées et les articles de secours, puis classe
+# par date décroissante : les anciennes références ne bloquent plus les nouvelles.
+by_url = {}
 for item in verified + items:
-    if item["url"] not in seen:
-        seen.add(item["url"])
-        unique.append(item)
-unique = unique[:5]
+    previous = by_url.get(item["url"], {})
+    merged = {**previous, **item}
+    if not merged.get("date"):
+        merged["date"] = previous.get("date", "")
+    by_url[item["url"]] = merged
+
+MONTHS = {
+    "janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 4,
+    "mai": 5, "juin": 6, "juillet": 7, "août": 8, "aout": 8,
+    "septembre": 9, "octobre": 10, "novembre": 11,
+    "décembre": 12, "decembre": 12,
+}
+def date_key(item):
+    raw = (item.get("date") or "").strip().lower()
+    iso = re.search(r"20\\d{2}-\\d{2}-\\d{2}", raw)
+    if iso:
+        try:
+            return datetime.strptime(iso.group(0), "%Y-%m-%d")
+        except ValueError:
+            pass
+    match = re.search(r"(\\d{1,2})(?:er)?\\s+([a-zéû]+)\\s+(20\\d{2})", raw)
+    if match:
+        month = MONTHS.get(match.group(2))
+        if month:
+            try:
+                return datetime(int(match.group(3)), month, int(match.group(1)))
+            except ValueError:
+                pass
+    return datetime.min
+
+unique = sorted(by_url.values(), key=date_key, reverse=True)[:5]
 
 payload = {
     "source": BASE,
