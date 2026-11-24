@@ -136,13 +136,13 @@ MONTHS = {
 }
 def date_key(item):
     raw = (item.get("date") or "").strip().lower()
-    iso = re.search(r"20\\d{2}-\\d{2}-\\d{2}", raw)
+    iso = re.search(r"20\d{2}-\d{2}-\d{2}", raw)
     if iso:
         try:
             return datetime.strptime(iso.group(0), "%Y-%m-%d")
         except ValueError:
             pass
-    match = re.search(r"(\\d{1,2})(?:er)?\\s+([a-zéû]+)\\s+(20\\d{2})", raw)
+    match = re.search(r"(\d{1,2})(?:er)?\s+([a-zéû]+)\s+(20\d{2})", raw)
     if match:
         month = MONTHS.get(match.group(2))
         if month:
