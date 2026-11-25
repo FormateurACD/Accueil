@@ -135,6 +135,9 @@ for url in candidates:
 # Articles BTS ACD explicitement vérifiés sur le site officiel.
 # Ils servent de base fiable même si le sitemap du lycée est incomplet.
 verified = [
+    {"title": "Salon Azimut à Quimper : cultive ton orientation avec le BTS ACD !",
+     "url": "https://www.lycee.pommerit.fr/Salon-Azimut-a-Quimper-cultive-ton-orientation-avec-le-BTS-ACD",
+     "date": "mardi 24 novembre 2026"},
     {"title": "Les BTS ACD 1 à la station expérimentale de Kerguéhennec",
      "url": "https://www.lycee.pommerit.fr/Les-BTS-ACD-1-a-la-station-experimentale-de-Kerguehennec",
      "date": "lundi 28 septembre 2026"},
